@@ -1,5 +1,5 @@
 # rule: Documentation & Examples
-type: auto_attached
+type: always
 scope: **/*
 ---
 Every exported component must include **documentation** with:

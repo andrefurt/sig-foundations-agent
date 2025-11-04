@@ -1,5 +1,5 @@
 # rule: Stack Conventions (Framework-agnostic)
-type: auto_attached
+type: always
 scope: **/*
 ---
 **Assumptions**

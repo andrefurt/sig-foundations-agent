@@ -47,3 +47,48 @@ O componente **estende** um `div`; não tem propriedades específicas【69059639
 - Use `Skeleton` para estados de carregamento em listas, cards ou componentes complexos.
 - Ajuste a largura e altura para aproximar a estrutura do conteúdo real, aumentando a percepção de rapidez.
 - Considere combinar com `Spinner` para carregamentos mais longos, alternando entre `Skeleton` (para layouts) e `Spinner` (para operações).
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/skeleton/skeleton.tsx**
+
+```tsx
+"use client";
+
+import { cn } from "@/lib/utils";
+
+const Skeleton = ({
+  className,
+  ...props
+}: React.ComponentPropsWithRef<"div">) => {
+  return (
+    <div
+      className={cn("bg-foreground/10 animate-pulse rounded-md", className)}
+      {...props}
+    />
+  );
+};
+
+export { Skeleton };
+
+```
+
+**src/foundations/ui/skeleton/examples/skeleton.preview.tsx**
+
+```tsx
+import { Skeleton } from "@/foundations/ui/skeleton/skeleton";
+
+export default function SkeletonExample() {
+  return (
+    <div className="flex items-center gap-1">
+      <Skeleton className="size-10 rounded-full" />
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-4 w-32" />
+      </div>
+    </div>
+  );
+}
+
+```

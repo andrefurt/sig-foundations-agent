@@ -1,5 +1,5 @@
 # rule: PR Playbook
-type: manual
+type: always
 scope: **/*
 ---
 When proposing a refactor or a new component:

@@ -62,3 +62,31 @@ Merged documentation from repository and component docs (if present).
 - **Propagação de eventos**: lembre‑se de que os eventos ainda propagam através da árvore virtual do React, não da árvore DOM, o que pode ser útil para gestão de estado【802415564245962†L82-L83】.
 - **SSR**: como portais só são renderizados no cliente, assegure que o seu código verifica a existência do `window` antes de invocar `document.body` em ambiente de server‑side rendering【802415564245962†L85-L87】.
 - **Z‑index**: ao criar múltiplos portais, controle os valores de `z-index` para garantir que elementos se sobrepõem correctamente【802415564245962†L88-L89】.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/portal/portal.tsx**
+
+```tsx
+"use client";
+
+import { useLayoutEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
+type PortalProps = {
+  container?: Element;
+  children: React.ReactNode;
+};
+
+export const Portal = (props: PortalProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  useLayoutEffect(() => setMounted(true), []);
+
+  const container = props.container || (mounted && document.body);
+
+  return container ? createPortal(props.children, container) : null;
+};
+
+```

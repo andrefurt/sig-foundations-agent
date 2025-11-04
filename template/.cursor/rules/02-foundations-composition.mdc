@@ -1,5 +1,5 @@
 # rule: Foundations Component Composition
-type: auto_attached
+type: always
 scope: **/*
 ---
 **Goal**  

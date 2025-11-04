@@ -58,3 +58,214 @@ Merged documentation from repository and component docs (if present).
 - **Acessibilidade**: assegure‑se de que o texto seja claro e suficientemente descritivo; use `aria-label` quando houver apenas um ícone como conteúdo【20797473650384†L72-L82】.
 - **Estado de carregamento**: utilize `isLoading` para mostrar um spinner enquanto uma operação assíncrona está em curso e desactive o botão para prevenir cliques múltiplos【20797473650384†L35-L39】.
 - **Tamanhos**: seleccione o tamanho de acordo com a hierarquia visual e densidade do layout; `xs` e `sm` para barras de ferramentas compactas e `lg` para chamadas à acção destacadas.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/button/button.tsx**
+
+```tsx
+"use client";
+
+import { VariantProps } from "cva";
+
+import { Slot, Slottable } from "@/foundations/components/slot/slot";
+import { Spinner } from "@/foundations/ui/spinner/spinner";
+import { cn, cva } from "@/lib/utils";
+
+const buttonStyle = cva({
+  base: "shrink-0 relative whitespace-nowrap inline-flex items-center justify-center gap-1.5 font-medium shadow-xs transition focus-visible:outline-none focus-visible:ring-4 disabled:opacity-40 enabled:cursor-pointer h-(--button-height) ring-ring active:scale-98 text-(--button-text-color) [--button-text-color:var(--color-foreground)]",
+  variants: {
+    variant: {
+      primary: "bg-accent [--button-text-color:var(--color-accent-foreground)]",
+      outline: "border border-border bg-background focus-visible:border-accent",
+      ghost:
+        "border-none bg-transparent ring-0 shadow-none hover:bg-foreground/5",
+      destructive:
+        "bg-red-600 [--button-text-color:var(--color-white)] ring-red-600/50 hover:bg-red-700",
+    },
+    size: {
+      xs: "rounded-lg px-2 text-sm [--button-height:--spacing(6)]",
+      sm: "rounded-lg px-3 text-sm [--button-height:--spacing(8)]",
+      md: "rounded-xl px-4 text-base [--button-height:--spacing(10)]",
+      lg: "rounded-2xl px-5 text-base [--button-height:--spacing(12)]",
+    },
+    square: {
+      true: "w-(--button-height) px-0",
+      false: "",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+});
+
+export interface ButtonProps
+  extends React.ComponentPropsWithRef<"button">,
+    VariantProps<typeof buttonStyle> {
+  asChild?: boolean;
+  isLoading?: boolean;
+}
+
+const Button = ({
+  children,
+  className,
+  variant,
+  asChild = false,
+  isLoading,
+  size = "md",
+  square,
+  type = "button",
+  ref,
+  ...props
+}: ButtonProps) => {
+  const Comp = asChild ? Slot : "button";
+
+  return (
+    <Comp
+      className={cn(
+        buttonStyle({
+          className,
+          variant,
+          size,
+          square,
+        }),
+        isLoading && "text-transparent transition-none"
+      )}
+      ref={ref}
+      type={type}
+      {...props}
+    >
+      <Slottable asChild={asChild} child={children}>
+        {(child) => (
+          <>
+            {child}
+            {isLoading && (
+              <span
+                data-button-spinner
+                className={cn(
+                  "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                  "text-(--button-text-color)"
+                )}
+              >
+                <Spinner size={size} />
+              </span>
+            )}
+          </>
+        )}
+      </Slottable>
+    </Comp>
+  );
+};
+
+export { Button, buttonStyle };
+
+```
+
+**src/foundations/ui/button/examples/button-sizes.preview.tsx**
+
+```tsx
+import { Button } from "@/foundations/ui/button/button";
+
+export default function ButtonSizesPreview() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/button/examples/button-icons.preview.tsx**
+
+```tsx
+import {
+  ArrowSquareOutIcon,
+  PackageIcon,
+  PencilIcon,
+  SunIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
+import { Button } from "@/foundations/ui/button/button";
+
+export default function ButtonIconsPreview() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button variant="outline" square aria-label="Switch theme">
+        <SunIcon />
+      </Button>
+      <Button variant="outline">
+        <PencilIcon />
+        <span>Edit</span>
+      </Button>
+      <Button variant="outline">
+        <PackageIcon />
+        <span>External link</span>
+        <ArrowSquareOutIcon />
+      </Button>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/button/examples/button-loading.preview.tsx**
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+import { Button } from "@/foundations/ui/button/button";
+
+export default function ButtonExample() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <Button onClick={() => setIsLoading(!isLoading)} isLoading={isLoading}>
+      Click to toggle
+    </Button>
+  );
+}
+
+```
+
+**src/foundations/ui/button/examples/button.preview.tsx**
+
+```tsx
+import { HandPointingIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { Button } from "@/foundations/ui/button/button";
+
+export default function ButtonExample() {
+  return (
+    <Button>
+      <HandPointingIcon />
+      <span>Click me</span>
+    </Button>
+  );
+}
+
+```
+
+**src/foundations/ui/button/examples/button-variants.preview.tsx**
+
+```tsx
+import { Button } from "@/foundations/ui/button/button";
+
+export default function ButtonVariantsPreview() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button variant="primary">Primary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+    </div>
+  );
+}
+
+```

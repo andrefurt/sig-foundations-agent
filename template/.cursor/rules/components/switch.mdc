@@ -48,3 +48,88 @@ O componente estende o input nativo com `type="checkbox"`【24150405725346†L7-
 - **Rótulos**: forneça rótulos claros que expliquem a funcionalidade; posicione o texto próximo ao switch【24150405725346†L39-L43】.
 - **Persistência do estado**: considere guardar o estado do switch para que a preferência seja mantida entre sessões【24150405725346†L41-L43】.
 - **Acessibilidade**: indique visualmente e via `aria-checked` se o switch está ligado ou desligado, e garanta foco de teclado【24150405725346†L45-L47】.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/switch/switch.tsx**
+
+```tsx
+"use client";
+
+import { cn } from "@/lib/utils";
+
+const Switch = ({
+  className,
+  ...props
+}: Omit<React.ComponentPropsWithRef<"input">, "type">) => {
+  return (
+    <input
+      type="checkbox"
+      className={cn(
+        "appearance-none",
+        "bg-foreground/20 relative h-6 w-11 cursor-pointer rounded-xl transition",
+        // circle
+        "before:ease-out-expo before:bg-background before:absolute before:top-0.5 before:left-0.5 before:size-5 before:rounded-xl before:transition-transform before:duration-200",
+        // disabled
+        "disabled:before:opacity-30",
+        // checked
+        "checked:bg-foreground checked:before:translate-x-full",
+        // focus
+        "focus-visible:ring-ring focus-visible:ring-4 focus-visible:outline-none",
+        // stretch animation
+        "before:origin-left active:before:scale-x-110 active:before:rounded-[calc(var(--spacing)*2.25)] active:checked:before:origin-right",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+
+export { Switch };
+
+```
+
+**src/foundations/ui/switch/examples/switch-disabled-checked.preview.tsx**
+
+```tsx
+import { Switch } from "@/foundations/ui/switch/switch";
+
+export default function SwitchDisabledChecked() {
+  return <Switch disabled checked />;
+}
+
+```
+
+**src/foundations/ui/switch/examples/switch-custom-style.preview.tsx**
+
+```tsx
+import { Switch } from "@/foundations/ui/switch/switch";
+
+export default function SwitchCustomStyle() {
+  return <Switch className="bg-blue-400/20 checked:bg-blue-500" />;
+}
+
+```
+
+**src/foundations/ui/switch/examples/switch-disabled.preview.tsx**
+
+```tsx
+import { Switch } from "@/foundations/ui/switch/switch";
+
+export default function SwitchDisabled() {
+  return <Switch disabled />;
+}
+
+```
+
+**src/foundations/ui/switch/examples/switch.preview.tsx**
+
+```tsx
+import { Switch } from "@/foundations/ui/switch/switch";
+
+export default function SwitchPreview() {
+  return <Switch />;
+}
+
+```

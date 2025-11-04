@@ -1,6 +1,6 @@
 {
   "name": "@andrefurt/sig-foundations-agent",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": false,
   "description": "sig-foundations-agent: Cursor rules, component docs, and MCP setup for Significa Foundations (personal scope).",
   "license": "MIT",

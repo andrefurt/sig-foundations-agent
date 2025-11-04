@@ -63,3 +63,141 @@ O componente estende o elemento nativo `<textarea>`【96836809636194†L19-L20�
 - **Dimensionamento**: defina uma altura inicial adequada ao tipo de conteúdo; use `resize-y` para permitir apenas redimensionamento vertical【96836809636194†L47-L53】.
 - **Acessibilidade**: forneça rótulos claros; considere indicar contagem de caracteres ou palavras para limites de entrada【96836809636194†L57-L65】.
 - **Alinhamento**: mantenha a largura consistente com os outros campos do formulário; utilize variantes de estilo em consonância com `Input` para coerência visual.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/textarea/textarea.tsx**
+
+```tsx
+"use client";
+
+import { VariantProps } from "cva";
+import { useEffect, useRef, useState } from "react";
+
+import { inputStyle } from "@/foundations/ui/input/input";
+import { composeRefs } from "@/foundations/utils/compose-refs/compose-refs";
+import { cn } from "@/lib/utils";
+
+interface TextareaProps extends React.ComponentPropsWithRef<"textarea"> {
+  invalid?: boolean;
+  variant?: VariantProps<typeof inputStyle>["variant"];
+}
+
+const Textarea = ({ className, invalid, variant, ...props }: TextareaProps) => {
+  return (
+    <textarea
+      data-invalid={invalid}
+      aria-invalid={invalid}
+      className={cn(
+        inputStyle({ variant }),
+        "h-auto resize-none py-2 leading-snug",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+
+// as soon as `field-sizing: content` is supported, we can remove this component and just use the Textarea
+
+/**
+ * A textarea that resizes as you type.
+ */
+const TextareaResize = ({ ref, ...props }: TextareaProps) => {
+  const internalRef = useRef<HTMLTextAreaElement>(null);
+  const [internalValue, setInternalValue] = useState(props.value);
+
+  const value = props.value ?? internalValue;
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInternalValue(event.target.value);
+    props.onChange?.(event);
+  };
+
+  useEffect(() => {
+    if (internalRef.current) {
+      internalRef.current.style.height = "auto";
+      internalRef.current.style.height = `${internalRef.current.scrollHeight}px`;
+    }
+  }, [value]);
+
+  return (
+    <Textarea
+      ref={composeRefs(ref, internalRef)}
+      {...props}
+      value={value}
+      onChange={handleChange}
+    />
+  );
+};
+
+export { Textarea, TextareaResize };
+
+```
+
+**src/foundations/ui/textarea/examples/textarea-disabled.preview.tsx**
+
+```tsx
+import { Textarea } from "@/foundations/ui/textarea/textarea";
+
+export default function TextareaDisabledPreview() {
+  return (
+    <Textarea
+      className="w-80"
+      rows={5}
+      disabled
+      value="Once upon a time, in a distant galaxy, there lived a lonely star. Each day it would shine brightly, hoping to catch the attention of passing comets. One day, a beautiful comet noticed its radiant glow and decided to orbit nearby. From that day forward, the star was never lonely again."
+    />
+  );
+}
+
+```
+
+**src/foundations/ui/textarea/examples/textarea-minimal.preview.tsx**
+
+```tsx
+import { Textarea } from "@/foundations/ui/textarea/textarea";
+
+export default function TextareaMinimalPreview() {
+  return (
+    <Textarea
+      className="w-80"
+      variant="minimal"
+      rows={5}
+      placeholder="Write your next novel here"
+    />
+  );
+}
+
+```
+
+**src/foundations/ui/textarea/examples/textarea-resize.preview.tsx**
+
+```tsx
+import { TextareaResize } from "@/foundations/ui/textarea/textarea";
+
+export default function TextareaResizePreview() {
+  return (
+    <TextareaResize className="w-80" placeholder="Write your next novel here" />
+  );
+}
+
+```
+
+**src/foundations/ui/textarea/examples/textarea.preview.tsx**
+
+```tsx
+import { Textarea } from "@/foundations/ui/textarea/textarea";
+
+export default function TextareaPreview() {
+  return (
+    <Textarea
+      className="w-80"
+      rows={5}
+      placeholder="Write your next novel here"
+    />
+  );
+}
+
+```

@@ -52,3 +52,91 @@ O componente estende `div` e aceita outras props de contêiner【223482852593900
 - **Cor**: adapte a cor do spinner ao tema da aplicação; mantenha contraste suficiente com o fundo【223482852593900†L27-L37】.
 - **Acessibilidade**: inclua `aria-label` indicando o estado de carregamento e desactive interacções no componente que está a carregar【223482852593900†L38-L41】.
 - **Combinação com Skeleton**: para carregamentos mais longos que envolvem layout, considere usar `Skeleton` para ocupar espaço e `Spinner` para mostrar actividade【223482852593900†L34-L37】.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/spinner/spinner.tsx**
+
+```tsx
+"use client";
+
+import type { VariantProps } from "cva";
+
+import { cva } from "@/lib/utils";
+
+const spinnerStyle = cva({
+  base: [
+    "relative",
+    "animate-spin",
+    "before:absolute before:left-0 before:top-0 before:block before:size-full before:rounded-full before:border-current before:opacity-40",
+    "after:left-0 after:top-0 after:block after:size-full after:rounded-full after:border-transparent after:border-r-current after:border-t-current",
+  ],
+  variants: {
+    size: {
+      xs: "size-2 before:border after:border",
+      sm: "size-3 before:border after:border",
+      md: "size-4 before:border-2 after:border-2",
+      lg: "size-5 before:border-2 after:border-2",
+    },
+  },
+});
+
+export interface SpinnerProps
+  extends React.ComponentPropsWithRef<"div">,
+    VariantProps<typeof spinnerStyle> {}
+
+const Spinner = ({ className, size = "md", ...props }: SpinnerProps) => {
+  return (
+    <div
+      aria-label="loading"
+      role="progressbar"
+      className={spinnerStyle({ size, className })}
+      {...props}
+    />
+  );
+};
+
+export { Spinner };
+
+```
+
+**src/foundations/ui/spinner/examples/spinner.preview.tsx**
+
+```tsx
+import { Spinner } from "@/foundations/ui/spinner/spinner";
+
+export default function SpinnerExample() {
+  return <Spinner />;
+}
+
+```
+
+**src/foundations/ui/spinner/examples/spinner-color.preview.tsx**
+
+```tsx
+import { Spinner } from "@/foundations/ui/spinner/spinner";
+
+export default function SpinnerColorExample() {
+  return <Spinner className="text-emerald-500" />;
+}
+
+```
+
+**src/foundations/ui/spinner/examples/spinner-sizes.preview.tsx**
+
+```tsx
+import { Spinner } from "@/foundations/ui/spinner/spinner";
+
+export default function SpinnerSizesExample() {
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Spinner size="xs" />
+      <Spinner size="sm" />
+      <Spinner size="md" />
+      <Spinner size="lg" />
+    </div>
+  );
+}
+
+```

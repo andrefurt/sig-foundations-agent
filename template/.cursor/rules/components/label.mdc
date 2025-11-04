@@ -47,3 +47,49 @@ O componente **estende** directamente o elemento `label`; todas as propriedades 
 - **Associação correcta**: utilize o atributo `htmlFor` para ligar o `label` ao `id` do campo de entrada correspondente【178033943023100†L21-L25】.
 - **Texto conciso**: mantenha os rótulos curtos e claros; use capitalização de frase (inicial maiúscula)【178033943023100†L28-L31】.
 - **Acessibilidade**: nunca oculte um label visualmente.  Posicione‑o de forma consistente e garanta contraste suficiente entre o texto e o fundo【178033943023100†L32-L36】.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/label/label.tsx**
+
+```tsx
+"use client";
+
+import { useId } from "react";
+
+import { cn } from "@/lib/utils";
+
+const Label = ({
+  children,
+  className,
+  ...props
+}: React.ComponentPropsWithRef<"label">) => {
+  const generatedId = useId();
+  const id = props.id ?? generatedId;
+
+  return (
+    <label
+      className={cn("text-foreground text-base font-medium", className)}
+      id={id}
+      {...props}
+    >
+      {children}
+    </label>
+  );
+};
+
+export { Label };
+
+```
+
+**src/foundations/ui/label/examples/label.preview.tsx**
+
+```tsx
+import { Label } from "@/foundations/ui/label/label";
+
+export default function LabelPreview() {
+  return <Label>Label</Label>;
+}
+
+```

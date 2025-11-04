@@ -56,3 +56,82 @@ Merged documentation from repository and component docs (if present).
 - **Uso semântico**: utilize divisores semânticos para separar seções independentes, por exemplo, entre grupos de formulários【426673179638414†L47-L51】.
 - **Espaçamento**: mantenha espaçamento consistente ao redor do divisor e, em casos simples, considere usar margens em vez de um elemento de divisão【426673179638414†L52-L55】.
 - **Design visual**: mantenha o divisor discreto para não competir com o conteúdo; ajuste a cor e espessura conforme o tema【426673179638414†L56-L59】.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/divider/divider.tsx**
+
+```tsx
+"use client";
+
+import { cn } from "@/lib/utils";
+
+interface DividerProps extends React.ComponentPropsWithRef<"div"> {
+  orientation?: "horizontal" | "vertical";
+  decorative?: boolean;
+}
+
+const Divider = ({
+  className,
+  orientation = "horizontal",
+  decorative,
+  ...props
+}: DividerProps) => {
+  // https://github.com/radix-ui/primitives/blob/main/packages/react/separator/src/Separator.tsx
+  // `aria-orientation` defaults to `horizontal` so we only need it if `orientation` is vertical
+  const ariaOrientation = orientation === "vertical" ? orientation : undefined;
+  const semanticProps = decorative
+    ? { role: "none" }
+    : { "aria-orientation": ariaOrientation, role: "separator" };
+
+  return (
+    <div
+      className={cn(
+        "bg-border shrink-0",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+        className
+      )}
+      {...semanticProps}
+      {...props}
+    />
+  );
+};
+
+export { Divider };
+
+```
+
+**src/foundations/ui/divider/examples/divider-vertical.preview.tsx**
+
+```tsx
+import { Divider } from "@/foundations/ui/divider/divider";
+
+export default function DividerVerticalPreview() {
+  return (
+    <nav className="flex items-center gap-2">
+      <p>Home</p>
+      <Divider orientation="vertical" />
+      <p>About</p>
+    </nav>
+  );
+}
+
+```
+
+**src/foundations/ui/divider/examples/divider.preview.tsx**
+
+```tsx
+import { Divider } from "@/foundations/ui/divider/divider";
+
+export default function DividerPreview() {
+  return (
+    <div>
+      <p>Something</p>
+      <Divider />
+      <p>Something else</p>
+    </div>
+  );
+}
+
+```

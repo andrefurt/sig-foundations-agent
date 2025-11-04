@@ -51,3 +51,138 @@ O componente **estende o input nativo**; portanto, todas as propriedades padrão
 - **Rótulos**: associe sempre um `<label>` ao checkbox e torne o rótulo clicável para melhorar a usabilidade【782226900879245†L33-L37】.
 - **Agrupamento**: use `fieldset` e `legend` para agrupar grupos de checkboxes relacionados e fornecer contexto semântico【782226900879245†L40-L41】.
 - **Acessibilidade**: garanta navegação por teclado e estados indeterminados para reflectir selecções parciais em grupos.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/checkbox/checkbox.tsx**
+
+```tsx
+"use client";
+
+import { useEffect, useRef } from "react";
+
+import { composeRefs } from "@/foundations/utils/compose-refs/compose-refs";
+import { cva } from "@/lib/utils";
+
+interface CheckboxProps
+  extends Omit<React.ComponentPropsWithRef<"input">, "type"> {
+  indeterminate?: boolean;
+}
+
+const checkboxStyle = cva({
+  base: [
+    "appearance-none relative size-5 shrink-0 outline-none rounded-sm border border-border bg-background shadow-xs enabled:cursor-pointer enabled:not-checked:hover:border-mix-border/8 flex items-center justify-center focus-visible:ring-4 ring-ring transition",
+    // checked
+    "checked:enabled:border-accent checked:enabled:bg-accent checked:enabled:hover:border-mix-accent/8 checked:enabled:hover:mix-with-accent-foreground",
+    // indeterminate
+    "indeterminate:enabled:border-accent indeterminate:enabled:bg-accent indeterminate:enabled:hover:border-mix-accent/8 indeterminate:enabled:hover:mix-with-accent-foreground",
+    // checked checkmark
+    "before:absolute checked:before:content-['✓'] before:text-accent-foreground checked:before:text-xs checked:before:font-bold",
+    // indeterminate dash
+    "indeterminate:before:w-1.5 indeterminate:before:h-0.5 indeterminate:before:bg-accent-foreground",
+    // disabled
+    "disabled:cursor-not-allowed disabled:border-foreground/5 disabled:bg-foreground/10 disabled:checked:before:text-foreground/50 disabled:indeterminate:before:bg-foreground/50",
+  ],
+});
+
+const Checkbox = ({
+  ref,
+  indeterminate,
+  className,
+  ...props
+}: CheckboxProps) => {
+  const internalRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (internalRef.current) {
+      internalRef.current.indeterminate = !!indeterminate;
+    }
+  }, [indeterminate]);
+
+  return (
+    <input
+      type="checkbox"
+      ref={composeRefs(ref, internalRef)}
+      className={checkboxStyle({ className })}
+      {...props}
+    />
+  );
+};
+
+export { Checkbox };
+
+```
+
+**src/foundations/ui/checkbox/examples/checkbox-all-states.preview.tsx**
+
+```tsx
+"use client";
+
+import { Checkbox } from "@/foundations/ui/checkbox/checkbox";
+import { Label } from "@/foundations/ui/label/label";
+
+export default function CheckboxAllStatesPreview() {
+  return (
+    <div className="flex flex-col space-y-4">
+      <div className="flex items-center space-x-2">
+        <Checkbox id="unchecked" />
+        <Label htmlFor="unchecked">Unchecked</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox id="checked" checked onChange={() => {}} />
+        <Label htmlFor="checked">Checked</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox id="indeterminate" indeterminate />
+        <Label htmlFor="indeterminate">Indeterminate</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox id="disabled" disabled />
+        <Label htmlFor="disabled">Disabled</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox id="disabled-checked" checked disabled />
+        <Label htmlFor="disabled-checked">Checked Disabled</Label>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox id="disabled-indeterminate" indeterminate disabled />
+        <Label htmlFor="disabled-indeterminate">Indeterminate Disabled</Label>
+      </div>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/checkbox/examples/checkbox.preview.tsx**
+
+```tsx
+import { Checkbox } from "@/foundations/ui/checkbox/checkbox";
+
+export default function CheckboxPreview() {
+  return <Checkbox />;
+}
+
+```
+
+**src/foundations/ui/checkbox/examples/checkbox-disabled.preview.tsx**
+
+```tsx
+import { Checkbox } from "@/foundations/ui/checkbox/checkbox";
+
+export default function CheckboxDisabledPreview() {
+  return (
+    <div className="flex flex-col space-y-4">
+      <Checkbox disabled />
+      <Checkbox checked disabled />
+    </div>
+  );
+}
+
+```

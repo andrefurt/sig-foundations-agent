@@ -116,3 +116,609 @@ O `Listbox` implementa o [padrão WAI‑ARIA Listbox](https://www.w3.org/WAI/ARI
 - **Organização**: agrupe opções com `ListboxSection` e use divisores para separar grupos relacionados【601972489212375†L25-L37】.
 - **Pesquisa**: adicione a caixa de pesquisa para listas longas; mostre `ListboxEmpty` quando não houver resultados【601972489212375†L166-L170】.
 - **Acessibilidade**: garanta que o trigger e a lista têm rótulos claros; disponibilize mensagens de estado para utilizadores de leitores de ecrã.
+
+## Source Snapshot
+_Synced from foundations-main (read-only)._
+
+**src/foundations/ui/listbox/listbox.tsx**
+
+```tsx
+"use client";
+
+import {
+  autoUpdate,
+  flip,
+  FloatingList,
+  offset,
+  Placement,
+  shift,
+  size,
+  useClick,
+  useDismiss,
+  useFloating,
+  UseFloatingReturn,
+  useInteractions,
+  UseInteractionsReturn,
+  useListItem,
+  useListNavigation,
+  useMergeRefs,
+  useRole,
+  useTypeahead,
+} from "@floating-ui/react";
+import { CaretUpDownIcon, CheckIcon } from "@phosphor-icons/react";
+import { VariantProps } from "cva";
+import {
+  Children,
+  createContext,
+  isValidElement,
+  use,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+import { Divider } from "@/foundations/ui/divider/divider";
+import { inputStyle } from "@/foundations/ui/input/input";
+import {
+  PopoverEmpty,
+  PopoverPanel,
+  PopoverSearchInput,
+} from "@/foundations/ui/popover/popover";
+import { cn } from "@/lib/utils";
+
+// Utils
+
+const hasChildren = (
+  props: unknown
+): props is { children: React.ReactNode } => {
+  return typeof props === "object" && props !== null && "children" in props;
+};
+
+export function getTextContent(children: React.ReactNode): string {
+  if (typeof children === "string") return children;
+  if (typeof children === "number") return children.toString();
+  if (Array.isArray(children)) return children.map(getTextContent).join("");
+  if (isValidElement(children) && hasChildren(children.props))
+    return getTextContent(children.props.children);
+  return "";
+}
+
+// Context
+
+type Option<T = string> = {
+  value: T;
+  label: string;
+  disabled?: boolean;
+};
+
+interface ListboxContextType<T = string>
+  extends UseFloatingReturn,
+    UseInteractionsReturn {
+  elementsRef: React.RefObject<(HTMLElement | null)[]>;
+  labelsRef: React.RefObject<string[]>;
+  setOptions: (options: Option<T>[]) => void;
+  highlightedIndex: number | null;
+  setHighlightedIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  value: T | undefined;
+  handleSelect: (index: number | null) => void;
+  invalid?: boolean;
+  disabled?: boolean;
+  setIsSearchable: React.Dispatch<React.SetStateAction<boolean>>;
+  getIsSelected: (a: T, b: T) => boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ListboxContext = createContext<ListboxContextType<any> | null>(null);
+
+const useListboxContext = <T,>() => {
+  const context = use(
+    ListboxContext as React.Context<ListboxContextType<T> | null>
+  );
+
+  if (context == null) {
+    throw new Error("useListboxContext must be used within a Listbox");
+  }
+
+  return context;
+};
+
+// Utils
+
+const isObjectWithId = (value: unknown): value is { id: unknown } => {
+  return typeof value === "object" && value !== null && "id" in value;
+};
+
+const isPrimitive = (value: unknown): value is string | number | boolean => {
+  return typeof value !== "object" && value !== null;
+};
+
+const defaultGetIsSelected = <T,>(a: T, b: T) => {
+  if (isObjectWithId(a) && isObjectWithId(b)) {
+    return a.id === b.id;
+  }
+
+  if (isPrimitive(a) && isPrimitive(b)) {
+    return a === b;
+  }
+
+  return JSON.stringify(a) === JSON.stringify(b);
+};
+
+// Chore mechanics (Floating UI)
+
+interface UseListboxFloatingOptions<T = string> {
+  value: T;
+  onChange: (value: T) => void;
+  disabled?: boolean;
+  invalid?: boolean;
+  placement?: Placement;
+  getIsSelected?: (a: T, b: T) => boolean;
+  matchReferenceWidth?: boolean;
+}
+
+const useListboxFloating = <T,>({
+  value,
+  onChange,
+  disabled,
+  invalid,
+  placement = "bottom",
+  getIsSelected = defaultGetIsSelected,
+  matchReferenceWidth = true,
+}: UseListboxFloatingOptions<T>) => {
+  const [open, setOpen] = useState(false);
+
+  const [isSearchable, setIsSearchable] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+  const [options, setOptions] = useState<Option<T>[]>([]);
+
+  const elementsRef = useRef<(HTMLElement | null)[]>([]);
+
+  const selectedIndex = useMemo(() => {
+    if (!value) return -1;
+
+    return options.findIndex((option) => {
+      return getIsSelected(option.value, value);
+    });
+  }, [options, value, getIsSelected]);
+
+  const floating = useFloating({
+    placement,
+    open,
+    onOpenChange: setOpen,
+    whileElementsMounted: (reference, floating, update) =>
+      autoUpdate(reference, floating, update, {
+        layoutShift: false,
+      }),
+    middleware: [
+      flip({ padding: 4 }),
+      shift({ padding: 4 }),
+      offset(4),
+      size({
+        apply({ rects, elements, availableHeight }) {
+          elements.floating.style.setProperty(
+            "--max-height",
+            `${availableHeight}px`
+          );
+
+          if (matchReferenceWidth) {
+            elements.floating.style.setProperty(
+              "--width",
+              `${rects.reference.width}px`
+            );
+          }
+        },
+        padding: 4,
+      }),
+    ],
+  });
+
+  const handleSelect = useCallback(
+    (index: number | null) => {
+      if (index === null || !options[index]) return;
+
+      // assuming that a `value` array means a multiselect (sorry tuples)
+      const isMultiple = Array.isArray(value);
+
+      if (isMultiple) {
+        const isSelected = value.some((v) =>
+          getIsSelected(options[index].value, v)
+        );
+
+        return isSelected
+          ? onChange(
+              value.filter((v) => !getIsSelected(options[index].value, v)) as T
+            )
+          : onChange([...value, options[index].value] as T);
+      }
+
+      onChange(options[index].value);
+      setOpen(false);
+    },
+    [onChange, options, value, getIsSelected]
+  );
+
+  const listNav = useListNavigation(floating.context, {
+    listRef: elementsRef,
+    activeIndex: highlightedIndex,
+    selectedIndex,
+    onNavigate: setHighlightedIndex,
+    virtual: isSearchable || undefined,
+    loop: isSearchable || undefined,
+  });
+
+  const handleTypeaheadMatch = useCallback(
+    (index: number | null) => {
+      if (open) {
+        setHighlightedIndex(index);
+      } else {
+        handleSelect(index);
+      }
+    },
+    [open, handleSelect]
+  );
+
+  const labelsRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    labelsRef.current = options.map((option) => option.label);
+  }, [options]);
+
+  const typeahead = useTypeahead(floating.context, {
+    enabled: !(isSearchable && open),
+    listRef: labelsRef,
+    activeIndex: highlightedIndex,
+    selectedIndex,
+    onMatch: handleTypeaheadMatch,
+  });
+
+  const click = useClick(floating.context, {
+    enabled: !disabled,
+    event: "mousedown",
+  });
+  const dismiss = useDismiss(floating.context);
+  const role = useRole(floating.context, { role: "listbox" });
+
+  const interactions = useInteractions([
+    listNav,
+    typeahead,
+    click,
+    dismiss,
+    role,
+  ]);
+
+  return useMemo(
+    () => ({
+      elementsRef,
+      labelsRef,
+      highlightedIndex,
+      setHighlightedIndex,
+      value,
+      invalid,
+      disabled,
+      setOptions,
+      handleSelect,
+      setIsSearchable,
+      getIsSelected,
+      ...interactions,
+      ...floating,
+    }),
+    [
+      highlightedIndex,
+      value,
+      invalid,
+      disabled,
+      setOptions,
+      handleSelect,
+      getIsSelected,
+      interactions,
+      floating,
+    ]
+  );
+};
+
+// Components
+
+type ListboxProps<T = string> = UseListboxFloatingOptions<T> & {
+  children: React.ReactNode;
+};
+
+/**
+ * Listbox is a controlled component used for choosing a value from a list of options, typically in forms.
+ * It's best suited for scenarios where users need to pick an item from a predefined set.
+ *
+ * Use Listbox when choosing a value from a list of options.
+ * Use Dropdown instead when you want to trigger actions or navigation.
+ */
+const Listbox = <T,>({
+  children,
+  ref,
+  ...props
+}: ListboxProps<T> & { ref?: React.Ref<ListboxContextType<T>> }) => {
+  const contextValue = useListboxFloating(props);
+
+  useImperativeHandle(ref, () => contextValue);
+
+  return <ListboxContext value={contextValue}>{children}</ListboxContext>;
+};
+
+interface ListboxTriggerProps extends React.ComponentPropsWithRef<"button"> {
+  variant?: VariantProps<typeof inputStyle>["variant"];
+  p
+// ... truncated ...
+
+```
+
+**src/foundations/ui/listbox/examples/listbox-search.preview.tsx**
+
+```tsx
+"use client";
+
+import { useMemo, useState } from "react";
+
+import {
+  Listbox,
+  ListboxEmpty,
+  ListboxOption,
+  ListboxOptions,
+  ListboxSearchInput,
+  ListboxTrigger,
+} from "@/foundations/ui/listbox/listbox";
+
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
+
+export default function ListboxSearchPreview() {
+  const [search, setSearch] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState(people[0]);
+
+  const filteredPeople = useMemo(() => {
+    return people.filter((person) =>
+      person.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search]);
+
+  return (
+    <div className="w-80">
+      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+        <ListboxTrigger>{selectedPerson?.name}</ListboxTrigger>
+        <ListboxOptions>
+          <ListboxSearchInput
+            placeholder="Search people"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {filteredPeople.map((person) => (
+            <ListboxOption key={person.id} value={person}>
+              {person.name}
+            </ListboxOption>
+          ))}
+          {filteredPeople.length === 0 && (
+            <ListboxEmpty>No results</ListboxEmpty>
+          )}
+        </ListboxOptions>
+      </Listbox>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/listbox/examples/listbox-divider.preview.tsx**
+
+```tsx
+"use client";
+
+import { Fragment, useState } from "react";
+
+import {
+  Listbox,
+  ListboxDivider,
+  ListboxOption,
+  ListboxOptions,
+  ListboxTrigger,
+} from "@/foundations/ui/listbox/listbox";
+
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
+
+export default function ListboxDividerPreview() {
+  const [selectedPerson, setSelectedPerson] = useState(people[0]);
+
+  return (
+    <div className="w-80">
+      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+        <ListboxTrigger>{selectedPerson?.name}</ListboxTrigger>
+        <ListboxOptions>
+          {people.map((person, i) => (
+            <Fragment key={person.id}>
+              <ListboxOption value={person}>{person.name}</ListboxOption>
+              {i === 2 && <ListboxDivider />}
+            </Fragment>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/listbox/examples/listbox-minimal.preview.tsx**
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+import {
+  Listbox,
+  ListboxOption,
+  ListboxOptions,
+  ListboxTrigger,
+} from "@/foundations/ui/listbox/listbox";
+
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
+
+export default function ListboxMinimalPreview() {
+  const [selectedPerson, setSelectedPerson] = useState(people[0]);
+
+  return (
+    <div className="w-80">
+      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+        <ListboxTrigger variant="minimal">
+          {selectedPerson?.name}
+        </ListboxTrigger>
+        <ListboxOptions>
+          {people.map((person) => (
+            <ListboxOption key={person.id} value={person}>
+              {person.name}
+            </ListboxOption>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/listbox/examples/listbox-placeholder.preview.tsx**
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+import {
+  Listbox,
+  ListboxOption,
+  ListboxOptions,
+  ListboxTrigger,
+} from "@/foundations/ui/listbox/listbox";
+
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
+
+export default function ListboxPlaceholderPreview() {
+  const [selectedPerson, setSelectedPerson] = useState<
+    (typeof people)[number] | null
+  >(null);
+
+  return (
+    <div className="w-80">
+      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+        <ListboxTrigger placeholder="Select person">
+          {selectedPerson?.name}
+        </ListboxTrigger>
+        <ListboxOptions>
+          {people.map((person) => (
+            <ListboxOption key={person.id} value={person}>
+              {person.name}
+            </ListboxOption>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
+  );
+}
+
+```
+
+**src/foundations/ui/listbox/examples/listbox-custom.preview.tsx**
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/foundations/ui/avatar/avatar";
+import {
+  Listbox,
+  ListboxOption,
+  ListboxOptions,
+  ListboxTrigger,
+} from "@/foundations/ui/listbox/listbox";
+
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
+
+export default function ListboxCustomPreview() {
+  const [selectedPerson, setSelectedPerson] = useState<
+    (typeof people)[number] | null
+  >(null);
+
+  return (
+    <div className="w-80">
+      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+        <ListboxTrigger
+          placeholder="Select person"
+          className={selectedPerson ? "pl-3" : ""}
+        >
+          {selectedPerson && (
+            <span className="flex items-center gap-2">
+              <Avatar size="xs">
+                <AvatarImage
+                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${selectedPerson.name}`}
+                />
+                <AvatarFallback>{selectedPerson.name[0]}</AvatarFallback>
+              </Avatar>
+              <span>{selectedPerson.name}</span>
+            </span>
+          )}
+        </ListboxTrigger>
+        <ListboxOptions>
+          {people.map((person) => (
+            <ListboxOption
+              key={person.id}
+              value={person}
+              className="flex items-center gap-2 px-3"
+            >
+              <Avatar size="xs">
+                <AvatarImage
+                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${person.name}`}
+                />
+                <AvatarFallback>{person.name[0]}</AvatarFallback>
+              </Avatar>
+              <span>{person.name}</span>
+            </ListboxOption>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
+  );
+}
+
+```
