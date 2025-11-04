@@ -1,0 +1,85 @@
+# rule: Component – Select
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Select**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Select
+
+## Visão geral
+
+`Select` oferece um campo de selecção baseado no elemento `<select>`, proporcionando suporte móvel óptimo e estilo consistente entre navegadores【32041770826828†L10-L14】.  É adequado para selecções simples onde a renderização e a navegação nativas são suficientes.
+
+## Funcionalidades
+
+- **Elemento nativo**: usa `<select>` para garantir compatibilidade com leitores de ecrã e experiência móvel【32041770826828†L10-L11】.
+- **Estilo consistente**: normaliza aparência entre diferentes browsers【32041770826828†L12-L13】.
+- **Integração com formulários**: suporta validação e submissão nativas【32041770826828†L13-L15】.
+- **Suporte a prefixo**: permite adicionar um elemento antes do select, como ícone ou texto【32041770826828†L15-L16】.
+- **Variantes**: opções de estilo `default` e `minimal`【32041770826828†L15-L17】.
+- **Validação**: estilo para estado inválido (`invalid`)【32041770826828†L15-L18】.
+
+## Anatomia
+
+```tsx
+<SelectGroup>
+  <SelectPrefix />
+  <Select>
+    <option>
+  </Select>
+</SelectGroup>
+```【32041770826828†L21-L28】
+
+Componentes:
+
+- **Select**: campo principal que estende `<select>`【32041770826828†L34-L35】.
+- **SelectGroup**: contêiner para agrupar o select e o prefixo【32041770826828†L51-L56】.
+- **SelectPrefix**: elemento opcional antes do select; suporta `asChild`【32041770826828†L58-L68】.
+
+## API (Select)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `'default'` ou `'minimal'` | `'default'` | Estilo visual do campo【32041770826828†L39-L41】. |
+| **invalid** | `boolean` | `false` | Marca o campo como inválido, aplicando estilos de erro【32041770826828†L44-L46】. |
+
+## API (SelectPrefix)
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **asChild** | `boolean` | Quando `true`, permite que um elemento personalizado receba as propriedades do prefixo【32041770826828†L62-L68】. |
+
+## Boas práticas
+
+- **Escolha do componente**: para cenários com renderização personalizada, pesquisa ou selecção múltipla, use `Listbox` em vez de `Select`【32041770826828†L114-L119】.
+- **Móvel**: em dispositivos móveis, o select nativo oferece a melhor experiência e adaptabilidade【32041770826828†L122-L124】.
+- **Integração com formulários**: utilize os atributos nativos `required`, `name` e `invalid` para validação e submissão【32041770826828†L126-L131】.
+- **Acessibilidade**: forneça sempre um `label` visível ou `aria-label`; agrupe selects relacionados com `fieldset` e `legend`【32041770826828†L132-L135】.

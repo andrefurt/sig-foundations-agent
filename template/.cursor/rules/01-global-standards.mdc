@@ -1,0 +1,25 @@
+# rule: Global Coding Standards
+type: always
+scope: **/*
+---
+**Purpose**  
+Enforce baseline quality, readability, and accessibility across the codebase using the **Significa Foundations** library (no external UI kits).
+
+**Core Principles**
+- Prefer **composition over configuration**. Small primitives + named slots.
+- Use **CVA (class-variance-authority)** or equivalent variant logic _only if present in Foundations_. If not present, implement minimal, typed variant helpers per component.
+- **Accessibility-first**: roles, labels, focus outline, keyboard flows.
+- **Strict TypeScript** for all public APIs and events.
+- Keep components **pure** when possible; keep side-effects in hooks.
+
+**Styling & Tokens**
+- Use **OKLCH** or design tokens provided by Foundations; avoid ad‑hoc hex.
+- Tokens are the single source of truth. Never hardcode palette values.
+- Respect **WCAG AA** contrast as a minimum.
+
+**Testing & Docs**
+- Provide unit tests for logic-heavy parts.
+- Every component must ship an example and notes for edge cases.
+
+**Diff Etiquette**
+- Small, focused diffs; include rationale + a11y notes.

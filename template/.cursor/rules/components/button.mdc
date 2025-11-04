@@ -1,0 +1,60 @@
+# rule: Component – Button
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Button**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Button
+
+## Visão geral
+
+`Button` fornece uma forma consistente de acionar acções na interface.  É um componente versátil que suporta vários estilos, tamanhos e estados de carregamento, mantendo a semântica de botão ou ligando a outros elementos via `asChild`【20797473650384†L16-L43】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `'primary'`, `'outline'`, `'ghost'`, `'destructive'` | `'primary'` | Estilo visual; use `primary` para acções principais, `destructive` para acções perigosas, `ghost` ou `outline` para acções secundárias【20797473650384†L16-L43】【20797473650384†L72-L79】. |
+| **size** | `'xs'`, `'sm'`, `'md'`, `'lg'` | `'md'` | Define a altura e a tipografia【20797473650384†L16-L27】. |
+| **square** | `boolean` | `false` | Torna o botão quadrado, útil para ícones【20797473650384†L28-L33】. |
+| **isLoading** | `boolean` | `false` | Substitui o conteúdo por um spinner para indicar carregamento【20797473650384†L35-L39】. |
+| **asChild** | `boolean` | – | Permite que um elemento personalizado (por exemplo, `<Link>`) absorva as propriedades e o estilo do botão【20797473650384†L40-L43】. |
+
+## Dependências
+
+- Utiliza o componente `Spinner` para estados de carregamento e o utilitário `Slot` para mesclar propriedades quando `asChild` é true【20797473650384†L6-L12】.
+
+## Boas práticas
+
+- **Escolha de variantes**: use `primary` para acções principais, `outline` ou `ghost` para acções secundárias e `destructive` para operações que possam causar perda de dados【20797473650384†L72-L79】.
+- **Acessibilidade**: assegure‑se de que o texto seja claro e suficientemente descritivo; use `aria-label` quando houver apenas um ícone como conteúdo【20797473650384†L72-L82】.
+- **Estado de carregamento**: utilize `isLoading` para mostrar um spinner enquanto uma operação assíncrona está em curso e desactive o botão para prevenir cliques múltiplos【20797473650384†L35-L39】.
+- **Tamanhos**: seleccione o tamanho de acordo com a hierarquia visual e densidade do layout; `xs` e `sm` para barras de ferramentas compactas e `lg` para chamadas à acção destacadas.

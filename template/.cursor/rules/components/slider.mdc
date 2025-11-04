@@ -1,0 +1,84 @@
+# rule: Component – Slider
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Slider**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Slider
+
+## Visão geral
+
+`Slider` é um componente composto baseado em `<input type="range">` que permite seleccionar um valor num intervalo arrastando um **thumb** sobre uma pista.  Suporta personalização completa através de subcomponentes【332862252055585†L9-L15】.
+
+## Anatomia
+
+O slider é composto por quatro partes:
+
+```tsx
+<Slider min={0} max={100} defaultValue={50}>
+  <SliderTrack>
+    <SliderRange />
+  </SliderTrack>
+  <SliderThumb />
+</Slider>
+```【332862252055585†L102-L113】
+
+- **Slider**: contêiner principal que gere o estado e a lógica【332862252055585†L11-L14】.
+- **SliderTrack**: barra de fundo que representa o intervalo total【332862252055585†L62-L71】.
+- **SliderRange**: parte preenchida que indica o valor seleccionado【332862252055585†L76-L88】.
+- **SliderThumb**: botão deslizante que o utilizador arrasta; rende como `input[type="range"]`【332862252055585†L92-L94】.
+
+## API (Slider)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **min** | `number` | `0` | Valor mínimo permitido【332862252055585†L17-L21】. |
+| **max** | `number` | `100` | Valor máximo permitido【332862252055585†L23-L25】. |
+| **step** | `number` | `1` | Incremento entre valores【332862252055585†L27-L31】. |
+| **value** | `number` | – | Valor controlado pelo utilizador【332862252055585†L32-L35】. |
+| **defaultValue** | `number` | – | Valor inicial quando não controlado【332862252055585†L36-L39】. |
+| **onValueChange** | `(valor: number) => void` | – | Callback ao alterar o valor【332862252055585†L40-L43】. |
+| **orientation** | `'horizontal'` ou `'vertical'` | `'horizontal'` | Orientação da pista【332862252055585†L45-L47】. |
+| **disabled** | `boolean` | `false` | Desactiva o slider【332862252055585†L49-L52】. |
+| **asChild** | `boolean` | `false` | Permite renderizar um elemento personalizado absorvendo as props【332862252055585†L54-L57】. |
+
+## API (SliderTrack, SliderRange, SliderThumb)
+
+Cada subcomponente suporta a propriedade `asChild` para renderizar como elemento personalizado【332862252055585†L67-L86】.
+
+O `SliderThumb` utiliza variáveis CSS internas para personalizar a espessura da pista (`--track-thickness`) e o tamanho do thumb (`--thumb-size`)【332862252055585†L95-L99】.
+
+## Boas práticas
+
+- **Parâmetros**: defina valores mínimos e máximos significativos; utilize `step` adequado para evitar valores imprecisos【332862252055585†L17-L31】.
+- **Acessibilidade**: forneça `aria-label` ou `aria-labelledby` e garanta que o slider é utilizável com teclas de setas【332862252055585†L146-L150】.
+- **Feedback**: considere mostrar o valor actual em tooltip ou etiqueta para maior precisão【332862252055585†L152-L154】.
+- **Interacções**: teste o componente tanto com rato como com toque, assegurando que o thumb é fácil de agarrar em dispositivos móveis【332862252055585†L151-L153】.

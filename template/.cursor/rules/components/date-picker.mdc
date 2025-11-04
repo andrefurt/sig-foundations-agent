@@ -1,0 +1,80 @@
+# rule: Component – Date Picker
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Date Picker**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Date Picker
+
+## Visão geral
+
+`DatePicker` combina o `Calendar` e o `Dropdown` para fornecer um campo de entrada com seletor de data.  Suporta diferentes variantes visuais, atalhos de datas e posicionamento inteligente do painel【41537526133641†L23-L28】.
+
+## Funcionalidades principais
+
+- **Entrada flexível**: permite variantes de estilo consistentes com o componente `Input` e placeholders personalizados【41537526133641†L23-L28】.
+- **Atalhos**: oferece atalhos predefinidos para seleccionar rapidamente intervalos comuns (ex. hoje, última semana)【41537526133641†L25-L27】.
+- **Posicionamento inteligente**: ajusta automaticamente a posição do painel para se manter visível【41537526133641†L27-L28】.
+- **Navegação por teclado**: herda suporte completo do `Calendar`【41537526133641†L23-L29】.
+
+## Dependências
+
+- `Calendar`【41537526133641†L9-L12】.
+- `Dropdown`【41537526133641†L13-L15】.
+- Estilos de `Input` para alinhar a aparência【41537526133641†L17-L19】.
+
+## Anatomia
+
+```tsx
+<DatePicker>
+  <DatePickerTrigger />
+  <DatePickerPanel />
+</DatePicker>
+```【41537526133641†L32-L37】
+
+- **DatePicker**: container principal que estende `Dropdown`【41537526133641†L41-L45】.
+- **DatePickerTrigger**: botão que abre o painel; estende `DropdownTrigger`【41537526133641†L45-L49】.
+- **DatePickerPanel**: painel que contém o `Calendar`; estende `Calendar`【41537526133641†L63-L66】.
+
+## API (props de `DatePicker`)
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **placeholder** | `string` | Texto exibido quando não há data seleccionada【41537526133641†L50-L55】. |
+| **variant** | `InputProps['variant']` | Variante visual do `Input` associado【41537526133641†L56-L59】. |
+
+Outras propriedades são herdadas dos componentes `Dropdown` e `Calendar`.
+
+## Boas práticas
+
+- **Formato de entrada**: utilize padrões claros e adicione dicas no placeholder para evitar confusão sobre o formato de data【41537526133641†L89-L93】.
+- **Atalhos**: seleccione atalhos relevantes para o contexto (por exemplo, “últimos 7 dias” em dashboards) e use rótulos descritivos【41537526133641†L95-L99】.
+- **Dispositivos móveis**: teste interacções táctteis e considere usar componentes nativos de data em dispositivos móveis【41537526133641†L101-L103】.

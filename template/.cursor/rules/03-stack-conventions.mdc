@@ -1,0 +1,15 @@
+# rule: Stack Conventions (Framework-agnostic)
+type: auto_attached
+scope: **/*
+---
+**Assumptions**
+- TypeScript as the primary language.
+- Tailwind or tokenized CSS variables **only if present in this repo**; else stick to Foundations' styles approach.
+- No external component kits; **Foundations is the design system**.
+
+**File Organization**
+- Co-locate component, styles, tests, and examples in the same folder.
+- Export a stable API from an `index.ts` per component folder.
+
+**Accessibility**
+- Radix-like semantics are fine if the repo uses them; otherwise use native semantics + ARIA attributes as required.

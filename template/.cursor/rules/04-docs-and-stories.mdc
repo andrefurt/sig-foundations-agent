@@ -1,0 +1,16 @@
+# rule: Documentation & Examples
+type: auto_attached
+scope: **/*
+---
+Every exported component must include **documentation** with:
+
+- **Description**: What the component does and when to use it.
+- **Anatomy**: Structure and slots.
+- **Props**: Typed API with defaults and constraints.
+- **States**: hover/focus/active/disabled/loading/invalid.
+- **Accessibility**: roles, labels, keyboard interactions.
+- **Usage Examples**: basic, with slots, edge cases (long text, truncation).
+- **Do/Don't**: practical guidance.
+- **Changelog**: meaningful changes impacting usage.
+
+Prefer Markdown colocated in `.cursor/rules/components/*.mdc` so the agent can ingest it directly.

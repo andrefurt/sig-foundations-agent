@@ -1,0 +1,70 @@
+# rule: Component – Avatar
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Avatar**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Avatar
+
+## Visão geral
+
+`Avatar` é um componente que representa visualmente um utilizador ou entidade.  Quando uma imagem não está disponível, exibe automaticamente as iniciais, garantindo que haja sempre um identificador visual【182683320463706†L20-L35】.
+
+## Anatomia e subcomponentes
+
+Um avatar é composto por três elementos principais:
+
+```tsx
+<Avatar>
+  <AvatarImage />
+  <AvatarFallback />
+</Avatar>
+```【182683320463706†L9-L16】
+
+- **Avatar**: contêiner principal que estende `div`【182683320463706†L20-L23】.
+- **AvatarImage**: renderiza a imagem (`<img>`) quando `src` é fornecido【182683320463706†L38-L48】.
+- **AvatarFallback**: mostra texto (geralmente iniciais) quando a imagem não está disponível【182683320463706†L50-L60】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **size** | `'2xs'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`, `'3xl'` | `'md'` | Define o tamanho do avatar【182683320463706†L26-L30】. |
+| **variant** | `'circle'` ou `'square'` | `'circle'` | Forma do avatar (circular ou quadrado)【182683320463706†L31-L34】. |
+| **src** (AvatarImage) | `string` | – | URL da imagem a exibir【182683320463706†L43-L48】. |
+| **children** (AvatarFallback) | `string` | – | Texto a mostrar quando não há imagem【182683320463706†L50-L60】. |
+
+## Boas práticas
+
+- Utilize imagens de alta resolução para evitar pixelização nos tamanhos grandes.
+- Providencie sempre texto de fallback com as iniciais para garantir identificação caso a imagem falhe.
+- Ajuste `variant` para alinhar com a estética do produto (circular para fotos de perfil; quadrado para ícones ou logótipos).
+- Mantenha contraste entre o fundo e as iniciais para legibilidade.

@@ -1,0 +1,85 @@
+# rule: Component – Disclosure
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Disclosure**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Disclosure
+
+## Visão geral
+
+`Disclosure` fornece um conjunto vertical de elementos interactivos que revelam ou escondem conteúdos ao serem clicados.  É minimalista e pode ser usado como base para construir **accordions**, listas de FAQ ou secções expansíveis【407655368636939†L19-L25】.
+
+## Funcionalidades principais
+
+- **Não estilizado**: permite personalização completa de estilos【407655368636939†L21-L25】.
+- **Animações suaves**: utiliza a biblioteca Motion para transições de altura【407655368636939†L21-L23】.
+- **Agrupamento opcional**: `DisclosureGroup` possibilita abrir apenas um painel de cada vez【407655368636939†L23-L24】.
+- **Modos controlado e não controlado**: pode gerenciar o estado internamente ou externamente【407655368636939†L24-L25】.
+- **Triggers personalizáveis**: os botões de activação podem ser qualquer elemento, com ou sem setinha de chevron【407655368636939†L25-L26】.
+
+## Anatomia
+
+```tsx
+<DisclosureGroup>
+  <Disclosure>
+    <DisclosureTrigger>
+      <DisclosureChevron />
+    </DisclosureTrigger>
+    <DisclosureContent />
+  </Disclosure>
+</DisclosureGroup>
+```【407655368636939†L29-L37】
+
+Componentes:
+
+- **Disclosure**: contêiner principal; estende `div`【407655368636939†L43-L45】.
+- **DisclosureTrigger**: botão que activa a expansão; estende `button`【407655368636939†L66-L68】.
+- **DisclosureContent**: área escondida que mostra o conteúdo【407655368636939†L79-L83】.
+- **DisclosureChevron**: ícone opcional que gira ao abrir【407655368636939†L85-L89】.
+- **DisclosureGroup**: permite apenas um painel aberto por vez【407655368636939†L91-L95】.
+
+## API resumida
+
+| Componente | Propriedades | Descrição |
+| --- | --- | --- |
+| **Disclosure** | `defaultOpen?: boolean`, `open?: boolean`, `onOpenChange?: (open: boolean) => void` | Controla o estado aberto de forma controlada ou não controlada【407655368636939†L47-L61】. |
+| **DisclosureTrigger** | `asChild?: boolean` | Mescla props no elemento filho【407655368636939†L66-L75】. |
+| **DisclosureContent** | (sem props) | Área que é mostrada ou escondida【407655368636939†L79-L83】. |
+| **DisclosureChevron** | – | Ícone que roda quando o painel está aberto【407655368636939†L85-L89】. |
+| **DisclosureGroup** | – | Envolve vários `Disclosure` e garante exclusividade【407655368636939†L91-L95】. |
+
+## Boas práticas
+
+- **Organização de conteúdo**: utilize rótulos claros e descritivos; mantenha o conteúdo conciso e em ordem lógica【407655368636939†L205-L210】.
+- **Considerações móveis**: assegure targets de toque grandes e teste animações em dispositivos de baixo desempenho【407655368636939†L211-L215】.
+- **Performance**: carregue conteúdo pesado de forma preguiçosa e considere desactivar animações para optimizar【407655368636939†L217-L220】.
+- **Construindo um accordion**: combine `DisclosureGroup` e CSS personalizados para criar accordions com bordas e separadores【407655368636939†L123-L189】.

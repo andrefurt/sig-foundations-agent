@@ -1,0 +1,62 @@
+# rule: Component – Stack
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Stack**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Stack
+
+## Visão geral
+
+`Stack` cria secções roláveis com cabeçalhos fixos (sticky).  O componente é **não‑estilizado** e delega a responsabilidade de aparência ao utilizador.  Ele calcula automaticamente os offsets para evitar sobreposição entre secções e utiliza o comportamento nativo de **posicionamento sticky**【915647176823318†L26-L32】.
+
+## Funcionalidades principais
+
+- **Sticky automático**: posiciona cabeçalhos com `position: sticky`, garantindo que cada cabeçalho fica visível enquanto a secção correspondente está no viewport【915647176823318†L26-L32】.
+- **Cálculo de offset**: ajusta as posições para evitar que cabeçalhos se sobreponham【915647176823318†L26-L32】.
+- **Sem estilos**: não aplica estilos próprios, permitindo total personalização.
+
+## Dependências
+
+- Utilitários `debounce` e `math/sum` para calcular offsets de forma eficiente【915647176823318†L26-L32】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **stick** | `'top'` ou `'bottom'` | `'top'` | Define se os cabeçalhos ficam colados no topo ou na base da área de rolagem【915647176823318†L48-L59】. |
+| **children** | `ReactNode` | – | Secções que serão envolvidas pela funcionalidade sticky. |
+
+## Boas práticas
+
+- Use `Stack` para listas longas com divisões claras, como catálogos ou etapas de formulários.
+- Garanta que a altura de cada secção seja suficiente para que o cabeçalho sticky tenha efeito perceptível.
+- Para cabeçalhos grandes, considere adicionar margens extras para evitar que cubram o conteúdo.

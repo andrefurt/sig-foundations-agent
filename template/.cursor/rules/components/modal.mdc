@@ -1,0 +1,111 @@
+# rule: Component – Modal
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Modal**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Modal
+
+## Visão geral
+
+`Modal` fornece uma base não estilizada para apresentar conteúdo num layer superior ao interface principal.  Utiliza o elemento HTML `<dialog>` para garantir acessibilidade e apoio nativo ao comportamento de modais【99757330120794†L37-L39】.
+
+## Funcionalidades principais
+
+- **Base nativa**: constrói sobre o `<dialog>` permitindo foco e interacção consistentes【99757330120794†L37-L39】.
+- **Clique fora e tecla ESC**: fecha o modal ao clicar no backdrop ou pressionar `Esc`【99757330120794†L37-L40】.
+- **Gestão de foco**: captura o foco ao abrir e restaura ao elemento anterior ao fechar【99757330120794†L40-L42】.
+- **Transições suaves**: integra‑se com o hook `useElementTransition` para animar abertura e fecho【99757330120794†L41-L42】.
+- **Modos controlado e não controlado**: pode receber `open` e `onOpenChange` para gerir estado externamente【99757330120794†L42-L44】.
+
+## Dependências
+
+- Utiliza `Slot` para renderizar triggers e botões personalizados【99757330120794†L9-L13】.
+- Usa `useElementTransition` para animações【99757330120794†L13-L15】.
+- Utiliza `composeRefs` para combinar referências【99757330120794†L17-L19】.
+
+## CSS necessário
+
+Para evitar que o fundo role quando o modal está aberto, adicione o seguinte CSS global【99757330120794†L28-L33】:
+
+```css
+body:has(dialog[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+```
+
+## Anatomia
+
+```tsx
+<Modal>
+  <ModalTrigger />
+  <ModalContent>
+    <ModalTitle />
+    <ModalDescription />
+    <ModalClose />
+  </ModalContent>
+</Modal>
+```【99757330120794†L48-L56】
+
+Componentes:
+
+- **ModalTrigger**: botão ou elemento que abre o modal【99757330120794†L96-L99】.
+- **ModalContent**: contêiner que estende `<dialog>`【99757330120794†L82-L93】.
+- **ModalTitle**: título, estende `<h2>`【99757330120794†L123-L127】.
+- **ModalDescription**: descrição, estende `<p>`【99757330120794†L137-L140】.
+- **ModalClose**: botão para fechar o modal【99757330120794†L109-L120】.
+
+## API
+
+### Modal
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **open** | `boolean` | Controla o estado aberto (modo controlado)【99757330120794†L61-L69】. |
+| **onOpenChange** | `(open: boolean) => void` | Callback quando o estado aberto muda【99757330120794†L69-L72】. |
+| **children** | `ReactNode` | Conteúdo do modal (obrigatório)【99757330120794†L73-L77】. |
+
+### ModalContent
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **catchFocus** | `boolean` | `true` | Captura o foco inicial para evitar saltos de scroll【99757330120794†L87-L93】. |
+
+### ModalTrigger / ModalClose / ModalTitle / ModalDescription
+
+Estes componentes suportam a propriedade **asChild** (boolean) para renderização de um elemento personalizado absorvendo os estilos【99757330120794†L96-L134】.
+
+## Boas práticas
+
+- **Acessibilidade**: inclua sempre `ModalTitle` e `ModalDescription` para proporcionar contexto a leitores de ecrã【99757330120794†L163-L167】.
+- **Experiência do utilizador**: mantenha o conteúdo focado e conciso; forneça acções claras (por exemplo, “Guardar”/“Cancelar”)【99757330120794†L169-L173】.
+- **Performance**: carregue componentes pesados de forma preguiçosa e apague‑os quando o modal fechar para reduzir o consumo de memória【99757330120794†L163-L174】.

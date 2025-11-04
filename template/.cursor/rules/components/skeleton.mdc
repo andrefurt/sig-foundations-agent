@@ -1,0 +1,49 @@
+# rule: Component – Skeleton
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Skeleton**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Skeleton
+
+## Visão geral
+
+`Skeleton` apresenta um espaço reservado enquanto o conteúdo real está a ser carregado.  Ele ajuda a reduzir a sensação de espera, mostrando contornos de texto ou blocos de conteúdo enquanto os dados são recuperados.
+
+## API
+
+O componente **estende** um `div`; não tem propriedades específicas【690596399984449†L7-L10】.
+
+## Boas práticas
+
+- Use `Skeleton` para estados de carregamento em listas, cards ou componentes complexos.
+- Ajuste a largura e altura para aproximar a estrutura do conteúdo real, aumentando a percepção de rapidez.
+- Considere combinar com `Spinner` para carregamentos mais longos, alternando entre `Skeleton` (para layouts) e `Spinner` (para operações).

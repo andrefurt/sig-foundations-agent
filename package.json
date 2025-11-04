@@ -1,0 +1,27 @@
+{
+  "name": "@andrefurt/sig-foundations-agent",
+  "version": "1.0.1",
+  "private": false,
+  "description": "sig-foundations-agent: Cursor rules, component docs, and MCP setup for Significa Foundations (personal scope).",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "sf-agent": "bin/sf-agent.js"
+  },
+  "files": [
+    "bin",
+    "template"
+  ],
+  "keywords": [
+    "cursor",
+    "mcp",
+    "design-system",
+    "foundations",
+    "rules",
+    "oklch",
+    "agent"
+  ],
+  "scripts": {
+    "postinstall": "node bin/sf-agent.js install || true"
+  }
+}

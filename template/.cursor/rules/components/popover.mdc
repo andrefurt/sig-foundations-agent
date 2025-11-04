@@ -1,0 +1,98 @@
+# rule: Component – Popover
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Popover**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Popover
+
+## Visão geral
+
+`Popover` é um painel flutuante ancorado a um elemento disparador.  Permite mostrar informações adicionais ou controlos contextuais sem sair da página.  Tem posicionamento inteligente, suporte opcional a modal e elementos internos como campo de pesquisa e estado vazio【514903009373180†L23-L27】.
+
+## Funcionalidades principais
+
+- **Posicionamento inteligente**: ajusta automaticamente a posição para se manter visível, suportando deslocamento e rotação【514903009373180†L23-L29】.
+- **Gestão de foco**: pode operar em modo **modal** para prender o foco dentro do popover【514903009373180†L23-L25】.
+- **Pesquisa integrada**: campo de pesquisa opcional com ícone【514903009373180†L36-L38】.
+- **Estado vazio**: componente dedicado para mensagens quando não há conteúdo【514903009373180†L36-L38】.
+- **Triggers flexíveis**: permite utilizar qualquer elemento como activador, incluindo renderização via `asChild`【514903009373180†L27-L28】.
+
+## Dependências
+
+- Utiliza `Slot` para mesclar props nos triggers【514903009373180†L7-L9】.
+- Utiliza o hook `useTopLayer` para empilhar o painel acima de outros elementos【514903009373180†L11-L13】.
+- Biblioteca `@floating-ui/react` para cálculo de posição【514903009373180†L15-L16】.
+
+## Anatomia
+
+```tsx
+<Popover>
+  <PopoverTrigger />
+  <PopoverContent>
+    <PopoverClose />
+    <PopoverSearchInput />
+    <PopoverEmpty />
+  </PopoverContent>
+</Popover>
+```【514903009373180†L31-L39】
+
+Componentes:
+
+- **Popover**: contêiner principal; gere estado aberto e posicionamento【514903009373180†L44-L71】.
+- **PopoverTrigger**: botão activador; estende `button` e suporta `asChild`【514903009373180†L74-L83】.
+- **PopoverContent**: área de conteúdo que é renderizada em portal【514903009373180†L88-L93】.
+- **PopoverClose**: botão para fechar; suporta `asChild`【514903009373180†L94-L106】.
+- **PopoverSearchInput**: campo de pesquisa estilizado com ícone【514903009373180†L108-L113】.
+- **PopoverEmpty**: contêiner para mensagens de estado vazio【514903009373180†L115-L118】.
+
+## API (Popover)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **open** | `boolean` | – | Controla se o popover está aberto【514903009373180†L46-L51】. |
+| **onOpenChange** | `(open: boolean) => void` | – | Callback quando o estado aberto muda【514903009373180†L52-L55】. |
+| **placement** | `Placement` | `'bottom'` | Posição do popover relativamente ao activador【514903009373180†L56-L60】. |
+| **offset** | `number` | `4` | Distância entre popover e activador【514903009373180†L61-L64】. |
+| **modal** | `boolean` | `false` | Quando verdadeiro, prende o foco dentro do popover【514903009373180†L66-L70】. |
+
+## API (PopoverTrigger)
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **asChild** | `boolean` | Quando true, o activador é renderizado como filho personalizado【514903009373180†L80-L84】. |
+
+## Boas práticas
+
+- **Posicionamento**: considere o espaço disponível; ajuste `offset` para evitar sobreposição com o activador【514903009373180†L162-L166】.
+- **Gestão de foco**: utilize `modal` em interacções mais complexas (por exemplo, formulários); garanta que o teclado navega apenas dentro do popover【514903009373180†L167-L172】.
+- **Conteúdo conciso**: mantenha o conteúdo curto; use popovers para informações suplementares, não para fluxos inteiros【514903009373180†L175-L176】.
+- **Responsividade**: teste em vários tamanhos de ecrã; ajuste largura do popover quando necessário【514903009373180†L164-L167】.

@@ -1,0 +1,75 @@
+# rule: Component – Tooltip
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Tooltip**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Tooltip
+
+## Visão geral
+
+`Tooltip` exibe informações suplementares quando o utilizador passa o cursor ou foca um elemento.  Utiliza posicionamento inteligente, permite configurar atrasos de mostrar/ocultar e suporta conteúdo rico【853686467329010†L17-L24】.
+
+## Funcionalidades principais
+
+- **Posicionamento inteligente**: ajusta automaticamente a posição para se manter visível【853686467329010†L19-L23】.
+- **Atrasos configuráveis**: permite definir atrasos de entrada (`delayIn`) e saída (`delayOut`) para evitar cintilação【853686467329010†L20-L21】【853686467329010†L63-L72】.
+- **Suporte a grupo**: tooltips podem coordenar‑se em grupo para remover atrasos quando há vários próximos【853686467329010†L21-L22】【853686467329010†L90-L94】.
+- **Conteúdo rico**: aceita qualquer `ReactNode`, incluindo texto longo ou componentes【853686467329010†L22-L23】【853686467329010†L117-L119】.
+- **Modo controlado**: permite controlar o estado aberto com `open` e `onOpenChange`【853686467329010†L23-L24】.
+
+## Dependências
+
+- Usa o hook `useTopLayer` para colocar o tooltip na camada superior【853686467329010†L7-L9】.
+- Utiliza `@floating-ui/react` para cálculo de posição【853686467329010†L11-L13】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **content** | `ReactNode` | – | Conteúdo mostrado no tooltip【853686467329010†L31-L35】. |
+| **open** | `boolean` | – | Estado aberto (modo controlado)【853686467329010†L36-L39】. |
+| **onOpenChange** | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` | – | Callback ao mudar o estado【853686467329010†L40-L45】. |
+| **initialOpen** | `boolean` | `false` | Se o tooltip está aberto inicialmente (modo não controlado)【853686467329010†L46-L52】. |
+| **placement** | `Placement` | `'top'` | Posição relativa ao activador【853686467329010†L53-L57】. |
+| **offset** | `number` | `4` | Distância entre tooltip e activador【853686467329010†L58-L62】. |
+| **delayIn** | `number` | `600` | Atraso em milissegundos antes de mostrar o tooltip【853686467329010†L63-L66】. |
+| **delayOut** | `number` | `0` | Atraso antes de ocultar【853686467329010†L68-L72】. |
+| **disabled** | `boolean` | `false` | Desactiva o tooltip【853686467329010†L74-L77】. |
+| **persistOnClick** | `boolean` | `false` | Mantém o tooltip visível após clique no activador【853686467329010†L79-L84】. |
+
+## Boas práticas
+
+- **Conteúdo**: mantenha o conteúdo conciso; use tooltips para informações adicionais, não essenciais【853686467329010†L129-L134】.
+- **Temporização**: ajuste os atrasos para evitar activações acidentais; em grupos, use `TooltipGroup` para remover atrasos ao passar de um para outro【853686467329010†L90-L97】.
+- **Posicionamento**: escolha posições sensatas (por exemplo, `top` para ícones) e teste em diferentes tamanhos de ecrã【853686467329010†L141-L145】.
+- **Performance**: evite colocar conteúdo pesado dentro de tooltips; opte por textos curtos ou ícones【853686467329010†L147-L148】.
+- **Acessibilidade**: forneça `aria-label` ou `aria-describedby` no activador; garanta que o tooltip é acessível via teclado e não só por hover.

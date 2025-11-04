@@ -1,0 +1,65 @@
+# rule: Component – Textarea
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Textarea**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Textarea
+
+## Visão geral
+
+`Textarea` é um campo de texto de múltiplas linhas.  Oferece variantes visuais consistentes com o componente `Input`, suporta estados inválidos e permite redimensionamento controlado【96836809636194†L2-L3】【96836809636194†L47-L53】.
+
+## Dependências
+
+- Usa estilos partilhados do `Input` (`inputStyle`) e o utilitário `composeRefs`【96836809636194†L6-L14】.
+
+## API
+
+O componente estende o elemento nativo `<textarea>`【96836809636194†L19-L20】.
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `'default'` ou `'minimal'` | `'default'` | Variantes de estilo【96836809636194†L24-L25】. |
+| **invalid** | `boolean` | `false` | Indica estado inválido【96836809636194†L27-L30】. |
+
+## Exemplos
+
+- **Default**: textarea padrão【96836809636194†L35-L37】.
+- **Minimal**: variante com menos bordas e preenchimento【96836809636194†L39-L41】.
+- **Disabled**: campo desactivado【96836809636194†L43-L45】.
+- **Resizable**: permite ao utilizador redimensionar verticalmente; recomendado como solução transitória até `field-sizing: content` ser suportado nativamente【96836809636194†L47-L53】.
+
+## Boas práticas
+
+- **Dimensionamento**: defina uma altura inicial adequada ao tipo de conteúdo; use `resize-y` para permitir apenas redimensionamento vertical【96836809636194†L47-L53】.
+- **Acessibilidade**: forneça rótulos claros; considere indicar contagem de caracteres ou palavras para limites de entrada【96836809636194†L57-L65】.
+- **Alinhamento**: mantenha a largura consistente com os outros campos do formulário; utilize variantes de estilo em consonância com `Input` para coerência visual.

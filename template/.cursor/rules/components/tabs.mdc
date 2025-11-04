@@ -1,0 +1,101 @@
+# rule: Component – Tabs
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Tabs**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Tabs
+
+## Visão geral
+
+`Tabs` fornece um sistema de navegação que alterna entre diferentes painéis de conteúdo.  Implementa animações suaves com Framer Motion, suporta navegação por teclado e oferece orientações horizontal e vertical【166260318450484†L19-L28】.
+
+## Funcionalidades principais
+
+- **Animações suaves**: transições animadas entre tabs usando Motion【166260318450484†L21-L23】.
+- **Navegação por teclado**: permite mudar de tab com setas; implementa todas as interacções do padrão WAI‑ARIA Tabs【166260318450484†L21-L27】【166260318450484†L130-L134】.
+- **Orientação**: pode ser horizontal ou vertical【166260318450484†L24-L25】.
+- **Estado controlado ou não**: aceita `selectedIndex` e `onChange` para controlar externamente o tab activo【166260318450484†L45-L61】.
+- **Acessibilidade**: adiciona roles e atributos adequados; permite renderização através de `asChild` para customização【166260318450484†L70-L83】.
+
+## Dependências
+
+- Utiliza `Slot` para mesclar props e a biblioteca Motion para animações【166260318450484†L8-L15】.
+
+## Anatomia
+
+```tsx
+<Tabs defaultIndex={0}>
+  <TabsItems>
+    <TabsItem />
+    …
+  </TabsItems>
+  <TabsPanels>
+    <TabsPanel />
+    …
+  </TabsPanels>
+</Tabs>
+```【166260318450484†L31-L39】
+
+Componentes:
+
+- **Tabs**: contêiner principal que gere estado e orientação【166260318450484†L44-L47】.
+- **TabsItems**: contêiner para os botões de tabs【166260318450484†L72-L74】.
+- **TabsItem**: botão individual de tab【166260318450484†L85-L100】.
+- **TabsPanels**: contêiner para painéis de conteúdo【166260318450484†L103-L107】.
+- **TabsPanel**: painel de conteúdo correspondente a um tab【166260318450484†L117-L127】.
+
+## API (Tabs)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **defaultIndex** | `number` | – | Índice activo inicialmente【166260318450484†L45-L54】. |
+| **selectedIndex** | `number` | – | Índice activo no modo controlado【166260318450484†L55-L58】. |
+| **onChange** | `(index: number) => void` | – | Callback quando o tab activo muda【166260318450484†L59-L62】. |
+| **orientation** | `'horizontal'` ou `'vertical'` | `'horizontal'` | Define orientação dos tabs【166260318450484†L63-L67】. |
+
+## API (TabsItem)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **asChild** | `boolean` | – | Renderiza o botão como filho personalizado【166260318450484†L90-L94】. |
+| **disabled** | `boolean` | `false` | Desactiva o tab【166260318450484†L95-L99】. |
+
+## API (TabsPanels, TabsPanel)
+
+Ambos suportam a propriedade `asChild` para renderizar elementos personalizados【166260318450484†L103-L115】.
+
+## Boas práticas
+
+- **Organização de conteúdo**: escolha rótulos claros e curtos; ordene os tabs de forma lógica【166260318450484†L158-L163】.
+- **Performance**: carregue painéis pesados de forma preguiçosa e evite animações complexas em dispositivos mais fracos【166260318450484†L164-L168】.
+- **Acessibilidade**: siga o padrão WAI‑ARIA Tabs; certifique‑se de que tabpanels são associados aos respectivos botões e que a navegação por teclado funciona correctamente【166260318450484†L170-L174】.
+- **Considerações móveis**: aumente a área de toque dos botões e, quando houver muitas tabs, considere torná‑las roláveis【166260318450484†L176-L179】.

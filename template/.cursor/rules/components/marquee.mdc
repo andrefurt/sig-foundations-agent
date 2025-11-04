@@ -1,0 +1,67 @@
+# rule: Component – Marquee
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Marquee**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Marquee
+
+## Visão geral
+
+`Marquee` cria um fluxo contínuo de conteúdo que desliza horizontalmente, semelhante aos letreiros luminosos.  Pode ser utilizado para mostrar listas de logotipos, notícias ou quaisquer elementos que se repitam de forma infinita.  O componente é **não‑estilizado**, permitindo que o programador defina o aspecto visual através de CSS.
+
+## Funcionalidades principais
+
+- **Clonagem dinâmica** de conteúdo: duplica automaticamente os itens para garantir um fluxo contínuo sem interrupções【435566798591265†L17-L30】.
+- **Gap configurável**: permite definir o espaçamento entre os elementos clonados【435566798591265†L17-L30】.
+- **Pausa fora do ecrã**: utiliza `IntersectionObserver` para interromper a animação quando o componente não está visível, poupando recursos【435566798591265†L17-L30】.
+- **Duração flexível**: controla a velocidade do movimento ajustando a duração da animação【435566798591265†L17-L30】.
+- **Sem estilos predefinidos**: cabe ao utilizador definir altura, cores e tamanhos.
+
+## Dependências
+
+- `useTicker` – loop de animação com `requestAnimationFrame`【435566798591265†L17-L30】.
+- `useIntersectionObserver` – detecta se o componente está no viewport【435566798591265†L17-L30】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **direction** | `'left'` ou `'right'` | `'left'` | Direcção do movimento do conteúdo【435566798591265†L40-L57】. |
+| **duration** | `number` | `30` (segundos) | Duração da animação em segundos; controla a velocidade. |
+| **paused** | `boolean` | `false` | Define se o fluxo está pausado. |
+
+## Boas práticas
+
+- Ajuste a **duração** com base no número de elementos para obter uma velocidade confortável.
+- Forneça **contraste suficiente** entre texto e fundo para garantir legibilidade.
+- Pause a animação quando o utilizador interagir ou passar o rato, melhorando a acessibilidade.
+- Combine com `usePrefersReducedMotion` para desactivar animações em utilizadores que preferem menos movimento.

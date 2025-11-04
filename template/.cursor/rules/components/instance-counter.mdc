@@ -1,0 +1,63 @@
+# rule: Component – Instance Counter
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Instance Counter**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# InstanceCounter
+
+## Visão geral
+
+`InstanceCounter` é um componente utilitário que atribui automaticamente **índices únicos** a cada instância e rastreia quantas instâncias foram montadas.  É utilizado principalmente em componentes como `Sequence` para coordenar a ordem de elementos, mas pode ser usado em qualquer situação em que seja necessário numerar elementos de forma consistente【922312986977785†L9-L18】.
+
+## Funcionalidades principais
+
+- **Atribuição automática de índice**: cada instância recebe um índice incremental, começando em 0【922312986977785†L9-L18】.
+- **Consciência de hierarquia**: as instâncias detectam o contexto de árvore, permitindo que índices sejam únicos mesmo em estruturas aninhadas【922312986977785†L9-L18】.
+- **Manutenção de contagem**: ao desmontar uma instância, os índices são reorganizados para manter a contagem correcta【922312986977785†L9-L18】.
+- **API de contexto**: expõe o número total de instâncias e o índice actual para ser consumido por componentes filhos.
+
+## Dependências
+
+Este utilitário não tem dependências externas significativas; faz parte das utilidades do Foundations.
+
+## API resumida
+
+| Propriedade/Hook | Tipo | Descrição |
+| --- | --- | --- |
+| **Contexto** | React Context | Expõe `count` (número de instâncias) e `index` (índice da instância actual). |
+| **Children** | `ReactNode` | Elementos que necessitam de um índice único. |
+
+## Boas práticas
+
+- Utilize `InstanceCounter` como _wrapper_ para listas de elementos que exigem indexação sequencial.
+- Evite depender de índices para lógica de negócio complexa, pois a ordem depende da execução do `useEffect`【922312986977785†L52-L55】.
+- Combine este utilitário com o componente `Sequence` para criar sequências animadas ou slideshows.

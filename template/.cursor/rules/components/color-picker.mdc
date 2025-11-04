@@ -1,0 +1,89 @@
+# rule: Component – Color Picker
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Color Picker**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Color Picker
+
+## Visão geral
+
+`ColorPicker` é um conjunto de componentes modulares para seleccionar cores de forma interactiva.  Suporta actualização em tempo real, navegação por teclado e funciona em dispositivos de toque【168320816425453†L17-L24】.  A arquitectura composável permite criar a interface de cor ideal para diferentes cenários.
+
+## Funcionalidades principais
+
+- **Arquitectura composável**: combine diferentes partes como área 2D, controlos de matiz, saturação, luminosidade e opacidade【168320816425453†L27-L35】.
+- **Actualização em tempo real**: reflecte imediatamente a cor seleccionada enquanto o utilizador interage【168320816425453†L17-L22】.
+- **Navegação por teclado**: setas permitem ajustes precisos【168320816425453†L20-L22】.
+- **Acessibilidade**: implementa padrões ARIA para leitores de ecrã【168320816425453†L21-L23】.
+- **Suporte a toque**: optimizado para dispositivos móveis【168320816425453†L23-L24】.
+
+## Dependências
+
+- Biblioteca `chroma-js` para conversões de cor【168320816425453†L7-L12】.
+
+## Anatomia
+
+Um exemplo de composição:
+
+```tsx
+<ColorPicker>
+  <ColorPickerArea />
+  <ColorPickerHue />
+  <ColorPickerSaturation />
+  <ColorPickerLightness />
+  <ColorPickerAlpha />
+</ColorPicker>
+```【168320816425453†L27-L35】
+
+## API
+
+### ColorPicker
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **color** | `[hue, saturation, value, alpha]` | `[0, 1, 1, 1]` | Valor da cor em formato HSVA (hue 0‑360, saturação/valor 0‑1)【168320816425453†L45-L50】. |
+| **onColorChange** | `(color: HSVA) => void` | – | Callback ao modificar a cor【168320816425453†L52-L57】. |
+| **disabled** | `boolean` | `false` | Desactiva a interacção【168320816425453†L58-L63】. |
+
+### Partes individuais
+
+- **ColorPickerArea**: selecção 2D de saturação e valor.
+- **ColorPickerHue**: selector horizontal para o matiz.
+- **ColorPickerSaturation**: ajusta saturação da cor actual.
+- **ColorPickerLightness**: ajusta luminosidade da cor actual.
+- **ColorPickerAlpha**: ajusta a opacidade e apresenta padrão quadriculado【168320816425453†L67-L87】.
+
+## Boas práticas
+
+- **Formato de cor**: armazene a cor internamente em HSVA e converta para outros formatos (HEX, RGB, HSL) apenas para exibição ou exportação【168320816425453†L111-L115】.
+- **Composição**: combine apenas os controlos necessários para o seu caso (por exemplo, `Area + Hue` para a maioria dos cenários; adicione `Alpha` se precisar de opacidade)【168320816425453†L117-L122】.
+- **Acessibilidade**: garanta contraste entre o cursor/handle e o fundo; teste a navegação por teclado e forneça rótulos claros【168320816425453†L124-L128】.

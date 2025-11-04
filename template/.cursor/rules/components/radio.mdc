@@ -1,0 +1,49 @@
+# rule: Component – Radio
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Radio**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Radio
+
+## Visão geral
+
+`Radio` é um componente de selecção única baseado em `<input type="radio">`.  É usado para seleccionar exactamente uma opção entre várias possibilidades【797350994603148†L2-L3】.
+
+## API
+
+O componente **estende** o input nativo com `type="radio"`; todas as propriedades padrão são suportadas【797350994603148†L7-L10】.
+
+## Boas práticas
+
+- **Rótulos**: associe cada radio a um `label` clicável e mantenha o texto claro e conciso【797350994603148†L21-L24】.
+- **Acessibilidade**: utilize `fieldset` e `legend` para agrupar conjuntos de radio buttons relacionados【797350994603148†L27-L30】.
+- **Espaçamento**: garanta que há espaço suficiente entre opções para evitar cliques errados.

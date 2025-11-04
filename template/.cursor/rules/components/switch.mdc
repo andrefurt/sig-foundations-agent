@@ -1,0 +1,50 @@
+# rule: Component – Switch
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Switch**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Switch
+
+## Visão geral
+
+`Switch` é um componente de alternância baseado no `<input type="checkbox">` que permite ligar ou desligar um estado.  É ideal para controlo de preferências ou definições que se aplicam imediatamente【24150405725346†L1-L3】.
+
+## API
+
+O componente estende o input nativo com `type="checkbox"`【24150405725346†L7-L10】 e suporta todas as props padrão.
+
+## Boas práticas
+
+- **Uso**: utilize switches para acções imediatas e binárias, como activar/desactivar notificações【24150405725346†L39-L43】.
+- **Rótulos**: forneça rótulos claros que expliquem a funcionalidade; posicione o texto próximo ao switch【24150405725346†L39-L43】.
+- **Persistência do estado**: considere guardar o estado do switch para que a preferência seja mantida entre sessões【24150405725346†L41-L43】.
+- **Acessibilidade**: indique visualmente e via `aria-checked` se o switch está ligado ou desligado, e garanta foco de teclado【24150405725346†L45-L47】.

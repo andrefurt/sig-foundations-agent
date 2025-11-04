@@ -1,0 +1,110 @@
+# rule: Component – Foundations
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Foundations**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Foundations
+
+## Introdução e filosofia
+
+Foundations é uma coleção opinativa de **componentes**, **padrões** e **guias** voltada para a criação de produtos digitais modernos.  Embora ofereça um conjunto abrangente de componentes de interface, o projeto vai além de elementos visuais ao abordar **padrões de interação**, **estratégias de gestão de estado**, **modelagem de conteúdo** e **optimização de desempenho**【316545779733357†L9-L18】.  A abordagem difere de bibliotecas tradicionais porque não há dependência a pacotes compilados.  A ideia é **copiar e personalizar** o código para o seu projecto ou utilizá‑lo como **referência de aprendizagem**【316545779733357†L24-L34】.  As soluções são pensadas para serem lidas e adaptadas, com documentação que explica o _como_ e o _porquê_ e não apenas o que fazem【316545779733357†L79-L87】.
+
+### Como usar
+
+1. **Copiar e personalizar** – copie os componentes ou padrões necessários para o seu código, adaptando‑os ao contexto do seu produto.  Esta abordagem dá controlo total e permite customizar estilos, lógicas e dependências【316545779733357†L24-L28】.
+2. **Recurso de aprendizagem** – utilize a documentação como referência para compreender implementações acessíveis, padrões de gestão de estado ou modelagem de conteúdos.  Os exemplos de código ajudam a construir soluções próprias com confiança【316545779733357†L30-L34】.
+
+## Setup do projecto
+
+Para usar os componentes do Foundations, é recomendado um projecto React 19 com Tailwind 4 configurado.  Caso ainda esteja em React 18, consulte o guia de migração para actualizar o código【299769107330991†L7-L22】.  As principais etapas são:
+
+- Instalar as dependências principais:
+  ```bash
+  npm install cva@beta tailwind-merge
+  ```【299769107330991†L24-L30】
+- Criar os estilos globais com **variáveis de esquema de cores**.  Há dois ficheiros opcionais: um com esquema automático baseado em `prefers-color-scheme` e outro com selector através de atributo `data-theme`.  Ambos definem cores, tipografia, sombras e funções utilitárias【299769107330991†L35-L49】.
+- Adicionar utilidades em `lib/utils.ts` para funções auxiliares usadas pelos componentes【299769107330991†L52-L56】.
+- Instalar um pacote de ícones (por omissão utiliza‑se Phosphor):
+  ```bash
+  npm install @phosphor-icons/react
+  ```【299769107330991†L58-L65】
+
+## Guias e boas práticas
+
+O Foundations inclui guias extensos que cobrem temas como acessibilidade, testes automatizados, selecções hierárquicas e monitorização de performance.
+
+### Formulários acessíveis
+
+- Para ligar correctamente labels, descrições e mensagens de erro utilize um componente `Field` ou padrão de **provider** que gere IDs e atributos ARIA.  Isso simplifica a associação de `aria-labelledby`, `aria-describedby` e `aria-errormessage`【548252089713477†L66-L71】.
+- Em componentes select personalizados (baseados em `button`), **não** aplique `aria-invalid` nem `aria-errormessage` no botão; esses atributos devem existir apenas no elemento escondido responsável pelo estado【548252089713477†L66-L71】.
+- Use `fieldset` e `legend` para agrupar grupos de controlos e garantir navegação por teclado e leitura por leitores de ecrã.
+
+### Testes automatizados
+
+O guia de testes incentiva a reduzir o esforço manual com **Playwright**, uma framework para testes end‑to‑end.  Instale a ferramenta com `npx playwright install` e crie um ficheiro de configuração (`playwright.config.ts`) que defina directório de testes, paralelismo, repórteres, timeouts e número de _workers_【803536430579742†L44-L55】【803536430579742†L90-L133】.  Em ambientes de integração contínua recomenda‑se limitar as retrys/worker a 2, ajustar timeouts e ignorar ficheiros gerados【803536430579742†L165-L177】.
+
+### Seleção hierárquica
+
+Para criar checkboxes hierárquicos (como listas com sub‑itens), use uma estrutura de dados com chaves `id`, `label`, `disabled`, `children` e, opcionalmente, `selected`【974858130701405†L29-L40】.  O comportamento esperado inclui: selecionar um pai selecciona todos os filhos; seleccionar/desseleccionar filhos actualiza o estado indeterminado do pai; itens podem estar desactivados; e existem funções utilitárias para filtrar e pesquisar【974858130701405†L42-L52】.
+
+### Monitorização de performance
+
+A guia de performance propõe duas ferramentas:
+
+- **Lighthouse CI** (`@lhci/cli`) para executar auditorias automáticas e comparar métricas como _First Contentful Paint_, _Largest Contentful Paint_, _Cumulative Layout Shift_ e _Total Blocking Time_ com limites definidos【990493275639911†L34-L61】.  Configurar um ficheiro `.lighthouserc.js` com `numberOfRuns` e `assert` permite falhar a build quando as métricas ficam abaixo dos limiares【990493275639911†L64-L149】.
+- **Bundle Analyzer** (`@next/bundle-analyzer`) para inspeccionar o tamanho dos pacotes em aplicações Next.js, activando relatórios de tamanho de cada bundle【990493275639911†L34-L61】.
+
+## Hooks principais
+
+O Foundations disponibiliza _hooks_ React para resolver problemas recorrentes:
+
+| Hook | Descrição resumida |
+| --- | --- |
+| `useDetectDevice` | Detecta se o utilizador está em dispositivo móvel ou desktop e a plataforma (Android/iOS), permitindo ajustar layouts e funcionalidades【494793569570312†L8-L33】. |
+| `useElementTransition` | Gera transições de montagem/desmontagem sem interromper animações, devolvendo o estado actual (`isMounted`) e o estado da transição【900209801676339†L19-L45】. |
+| `useIntersectionObserver` | Observa a intersecção de um elemento com o viewport. Permite pausar actualizações quando um _callback_ é passado para melhorar performance【300675838880307†L16-L41】. |
+| `useMatchMedia` | Observa media queries e actualiza valores conforme as alterações; útil para comportamentos responsivos e preferências de acessibilidade (por exemplo, `prefers-reduced-motion`)【140269677244538†L14-L27】【140269677244538†L31-L84】. |
+| `useMousePan` | Permite deslocar listas ou galerias arrastando com o rato; suporta _scroll snap_, multi‑eixo e preserva o scroll nativo【723246882015444†L12-L28】【723246882015444†L52-L56】. |
+| `usePrefersReducedMotion` | Retorna um booleano indicando se o utilizador prefere movimentos reduzidos, permitindo desactivar animações pesadas【831266921133959†L11-L26】. |
+| `useScrollLock` | Bloqueia o scroll em elementos específicos sem causar _layout shift_ e permite definir um alvo específico【449886427193691†L9-L33】. |
+| `useStableCallback` | Garante que uma função mantém a mesma referência entre renders, evitando renders desnecessários e permitindo aceder ao estado mais recente dentro de _callbacks_【167578065851259†L20-L60】. |
+| `useTailwindBreakpoint` | Detecta _breakpoints_ do Tailwind de forma reactiva, compatível com _server‑side rendering_, e garante consistência entre classes utilitárias e lógica de JavaScript【642608181476682†L11-L32】【642608181476682†L40-L48】. |
+| `useTicker` | Cria um loop performante com `requestAnimationFrame`, devolvendo métodos para iniciar, parar e pausar o loop【718690612945440†L8-L31】. |
+| `useTopLayer` | Empurra um elemento para a Top Layer do browser através da API de _popover_, útil para popovers e tooltips que devem ficar acima de tudo【315375694069524†L8-L61】. |
+
+## Boas práticas gerais
+
+- **Acessibilidade**: Forneça sempre labels claros; utilize `aria`‑attributes correctos; garanta navegação por teclado; considere preferências de movimento reduzido.  Muitos componentes fornecem versões modais com gestão de foco e rolagem.【655322354265870†L17-L23】
+- **Responsividade**: Teste componentes em diferentes tamanhos de ecrã e dispositivos.  Ajuste espaçamentos, tamanhos de _touch targets_ e oriente o layout para dispositivos móveis【599426086484581†L151-L155】.
+- **Validação e feedback**: Valide entradas de data, número ou texto; informe o utilizador quando valores são inválidos; use estados visuais (inválido, desactivado) para melhorar a experiência【599426086484581†L139-L160】.
+- **Desempenho**: Evite carregar conteúdos pesados em modais, drawers ou tabs; utilize `dynamic import` e _lazy loading_.  Considere desactivar animações em dispositivos de baixo desempenho【655322354265870†L137-L140】【166260318450484†L164-L168】.
+- **Organização de conteúdo**: Mantenha rótulos, títulos e descrições concisos; agrupe itens relacionados (dropdowns, listas); siga uma ordem lógica na navegação【650160772196056†L182-L187】【166260318450484†L158-L163】.

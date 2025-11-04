@@ -1,0 +1,72 @@
+# rule: Component – Badge
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Badge**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Badge
+
+## Visão geral
+
+`Badge` é um elemento discreto utilizado para rotular ou indicar estado.  Pode conter um ícone e um indicador de status, sendo ideal para representar categorias, estados de processos ou etiquetas de notificação【628764239164927†L16-L21】.
+
+## Anatomia e subcomponentes
+
+Estrutura típica de um badge:
+
+```tsx
+<Badge>
+  <BadgeIcon />
+  <BadgeStatus />
+</Badge>
+```【628764239164927†L16-L21】
+
+- **Badge**: contêiner principal, estende `div`【628764239164927†L25-L29】.
+- **BadgeIcon**: elemento opcional para renderizar um ícone【628764239164927†L45-L49】.
+- **BadgeStatus**: pequena marca, muitas vezes um ponto colorido, que indica estado【628764239164927†L49-L51】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `'neutral'`, `'success'`, `'error'`, `'warning'`, `'info'` | `'neutral'` | Escolhe a cor e semântica do badge【628764239164927†L31-L34】. |
+| **size** | `'xs'`, `'sm'`, `'md'` | `'md'` | Define dimensões e tipografia【628764239164927†L35-L38】. |
+| **asChild** | `boolean` | – | Quando `true`, permite que o filho fornecido absorva as propriedades do badge【628764239164927†L39-L42】. |
+
+## Dependências
+
+- Utiliza o utilitário `Slot` para mesclar props quando `asChild` é usado【628764239164927†L6-L11】.
+
+## Boas práticas
+
+- **Uso adequado**: seleccione `variant` consoante o contexto (por exemplo, `success` para mensagens de sucesso, `warning` para alertas).  Mantenha o texto curto e específico【628764239164927†L69-L73】.
+- **Acessibilidade**: garanta contraste suficiente entre o badge e o fundo; forneça texto claro que indique o significado do estado【628764239164927†L74-L78】.
+- **Ícones**: verifique a legibilidade do ícone em tamanhos pequenos e certifique‑se de que o ícone complementa a mensagem, em vez de duplicá‑la.

@@ -1,0 +1,109 @@
+# rule: Component – Dropdown
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Dropdown**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Dropdown
+
+## Visão geral
+
+`Dropdown` apresenta uma lista flutuante de opções em relação a um elemento activador.  Adapta‑se à janela, gere foco e suporta pesquisa, secções e selecção múltipla【650160772196056†L29-L37】.
+
+## Funcionalidades principais
+
+- **Posicionamento inteligente**: ajusta automaticamente a posição para permanecer visível【650160772196056†L31-L32】.
+- **Gestão de foco**: pode actuar como modal, prendendo o foco dentro da lista【650160772196056†L31-L33】.
+- **Suporte a secções**: agrupa itens com cabeçalhos opcionais e divisores【650160772196056†L33-L36】.
+- **Pesquisa integrada**: campo de pesquisa para filtrar itens【650160772196056†L33-L35】.
+- **Selecção múltipla**: permite seleccionar múltiplos itens com checkboxes【650160772196056†L35-L36】.
+- **Itens customizados**: API flexível para renderizar itens complexos【650160772196056†L35-L37】.
+
+## Dependências
+
+- `Popover` – fornece a infraestrutura de painel flutuante【650160772196056†L6-L9】.
+- `Divider` e `Slot` para estruturação de itens【650160772196056†L11-L17】.
+- `useStableCallback` para manter callbacks estáveis【650160772196056†L19-L21】.
+- Biblioteca `@floating-ui/react` para cálculo de posicionamento【650160772196056†L23-L25】.
+
+## Anatomia
+
+```tsx
+<Dropdown>
+  <DropdownTrigger />
+  <DropdownItems>
+    <DropdownSection>
+      <DropdownHeading />
+      <DropdownItem />
+      <DropdownDivider />
+      <DropdownItem />
+    </DropdownSection>
+    <DropdownSearchInput />
+    <DropdownEmpty />
+  </DropdownItems>
+</Dropdown>
+```【650160772196056†L40-L53】
+
+Componentes principais:
+
+- **Dropdown**: container principal; estende `Popover`【650160772196056†L60-L61】.
+- **DropdownTrigger**: botão activador; estende `PopoverTrigger`【650160772196056†L81-L84】.
+- **DropdownItems**: lista de opções; estende `PopoverContent`【650160772196056†L85-L89】.
+- **DropdownItem**: opção individual; estende `button`【650160772196056†L92-L101】.
+- **DropdownSection**: agrupa itens relacionados【650160772196056†L112-L116】.
+- **DropdownHeading**: título de uma secção【650160772196056†L118-L121】.
+- **DropdownDivider**: linha de separação【650160772196056†L123-L125】.
+- **DropdownSearchInput**: campo de pesquisa para filtrar itens【650160772196056†L127-L133】.
+- **DropdownEmpty**: mensagem exibida quando não há itens【650160772196056†L134-L139】.
+
+## API (Dropdown)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **modal** | `boolean` | `true` | Define se o dropdown prende o foco dentro dele【650160772196056†L64-L69】. |
+| **placement** | `Placement` | `'bottom-start'` | Posição do menu relativamente ao activador【650160772196056†L70-L72】. |
+| **onOpenChange** | `(open: boolean) => void` | – | Callback quando o dropdown abre/fecha【650160772196056†L74-L77】. |
+
+### DropdownItem
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **asChild** | `boolean` | Permite renderizar o item como filho personalizado【650160772196056†L98-L101】. |
+| **onSelect** | `(e: { preventDefault(): void }) => void` | Callback quando o item é seleccionado; chame `preventDefault()` para manter o dropdown aberto【650160772196056†L102-L107】. |
+
+Outros componentes não possuem props específicas além das básicas.
+
+## Boas práticas
+
+- **Organização de conteúdo**: agrupe itens relacionados em secções e use rótulos descritivos【650160772196056†L182-L187】.
+- **Design de interacção**: utilize selecção múltipla quando apropriado, adicione pesquisa para listas longas e mostre um estado vazio quando nenhum item corresponder【650160772196056†L189-L194】.
+- **Considerações móveis**: garanta alvos de toque grandes e teste o comportamento em diferentes tamanhos de ecrã【650160772196056†L196-L199】.
+- **Acessibilidade**: assegure que o dropdown suporta navegação por teclado e que o foco é gerido correctamente; forneça mensagens de estado para leitores de ecrã.

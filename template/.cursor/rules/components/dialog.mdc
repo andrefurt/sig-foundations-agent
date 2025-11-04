@@ -1,0 +1,89 @@
+# rule: Component – Dialog
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Dialog**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Dialog
+
+## Visão geral
+
+`Dialog` cria uma janela modal que se sobrepõe ao conteúdo principal para capturar a atenção do utilizador.  Baseia‑se em `Modal`, acrescentando estrutura e componentes específicos para títulos, descrições e acções【655322354265870†L17-L23】.
+
+## Funcionalidades principais
+
+- **Sobreposição modal**: apresenta um backdrop e bloqueia a interação com o conteúdo por trás【655322354265870†L17-L23】.
+- **Gestão de foco**: prende o foco dentro do diálogo e restaura‑o ao elemento anterior após fechar【655322354265870†L17-L23】.
+- **Posicionamento flexível**: permite alinhar o conteúdo no centro ou no topo【655322354265870†L19-L21】.
+- **Suporte a modos controlado e não controlado**: pode gerir o estado internamente ou receber `open` e `onOpenChange` externos【655322354265870†L20-L21】.
+- **Acções personalizáveis**: fornece área específica para botões de acção (confirmar, cancelar)【655322354265870†L22-L23】.
+
+## Dependências
+
+- Usa o componente base `Modal`【655322354265870†L9-L13】.
+
+## Anatomia
+
+```tsx
+<Dialog>
+  <DialogTrigger />
+  <DialogContent>
+    <DialogTitle />
+    <DialogClose />
+    <DialogDescription />
+    <DialogActions />
+  </DialogContent>
+</Dialog>
+```【655322354265870†L26-L35】
+
+Subcomponentes:
+
+- **DialogTrigger**: abre o diálogo; estende `ModalTrigger`【655322354265870†L44-L47】.
+- **DialogContent**: container do conteúdo, estende `ModalContent`【655322354265870†L48-L50】.
+- **DialogTitle**: cabeçalho; estende `ModalTitle`【655322354265870†L62-L64】.
+- **DialogDescription**: texto explicativo; estende `ModalDescription`【655322354265870†L66-L68】.
+- **DialogActions**: contêiner para botões de acção; estende `div`【655322354265870†L70-L76】.
+- **DialogClose**: botão de fechar; estende `ModalClose`【655322354265870†L78-L88】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **align** (DialogContent) | `'center'` ou `'top'` | `'center'` | Define a posição vertical do diálogo【655322354265870†L54-L58】. |
+| **asChild** (DialogClose) | `boolean` | – | Permite que o botão de fechar seja renderizado como filho, absorvendo as propriedades【655322354265870†L83-L88】. |
+| **open** | `boolean` | – | Controla o estado aberto (modo controlado). |
+| **onOpenChange** | `(open: boolean) => void` | – | Callback quando o estado muda. |
+
+## Boas práticas
+
+- **Estrutura de conteúdo**: inclua sempre um título claro e acções descritivas (evite “OK/Cancelar”)【655322354265870†L125-L130】.
+- **Considerações móveis**: teste o diálogo em diferentes ecrãs, garantindo que a área de acções e o conteúdo sejam fáceis de interagir【655322354265870†L131-L135】.
+- **Performance**: carregue conteúdo pesado de forma preguiçosa (lazy load) e limpe recursos ao fechar o diálogo【655322354265870†L137-L140】.

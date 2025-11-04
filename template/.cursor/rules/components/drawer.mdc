@@ -1,0 +1,82 @@
+# rule: Component – Drawer
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Drawer**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Drawer
+
+## Visão geral
+
+`Drawer` é um painel deslizante que surge a partir da lateral do ecrã, sobrepondo o conteúdo principal.  É ideal para apresentar menus, formulários rápidos ou detalhes sem sair da página【977896929014017†L1-L3】.
+
+## Funcionalidades principais
+
+- **Sobreposição modal**: cria um backdrop e bloqueia a interação com o restante da interface【977896929014017†L15-L17】.
+- **Gestão de foco**: captura o foco e impede que elementos externos recebam foco acidental【977896929014017†L15-L17】.
+- **Posicionamento flexível**: painel desliza, normalmente a partir da lateral; herda funcionalidades de posicionamento do `Modal`【977896929014017†L15-L19】.
+- **Modos controlado e não controlado**: permite controlar o estado aberto via props ou de forma interna【977896929014017†L18-L19】.
+- **Estrutura componível**: fornece subcomponentes para criar cabeçalhos, títulos, descrições e acções【977896929014017†L23-L36】.
+
+## Dependências
+
+- Baseia‑se no `Modal` para funcionalidades de acessibilidade e gestão de foco【977896929014017†L7-L10】.
+
+## Anatomia
+
+```tsx
+<Drawer>
+  <DrawerTrigger />
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle />
+    </DrawerHeader>
+    <DrawerDescription />
+    <DrawerActions>
+      <DrawerClose />
+    </DrawerActions>
+  </DrawerContent>
+</Drawer>
+```【977896929014017†L23-L36】
+
+Subcomponentes:
+
+- **DrawerTrigger**: botão que abre o drawer【977896929014017†L49-L51】.
+- **DrawerContent**: container que estende `ModalContent`【977896929014017†L45-L48】.
+- **DrawerHeader**, **DrawerTitle**, **DrawerDescription**: elementos estruturais para cabeçalhos e descrição【977896929014017†L45-L63】.
+- **DrawerActions**: área para botões de acção【977896929014017†L69-L71】.
+- **DrawerClose**: botão para fechar o painel【977896929014017†L53-L55】.
+
+## Boas práticas
+
+- **Estrutura de conteúdo**: inclua um título claro e botões com rótulos descritivos (evite “OK/Cancelar”)【977896929014017†L90-L94】.
+- **Performance**: carregue conteúdos pesados de forma preguiçosa e liberte recursos quando o painel for fechado【977896929014017†L95-L98】.
+- **Navegação**: permita que o utilizador feche o drawer com `Esc` ou clicando fora do painel; mantenha consistência com o comportamento de modais.

@@ -1,0 +1,54 @@
+# rule: Component – Spinner
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Spinner**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Spinner
+
+## Visão geral
+
+`Spinner` é um indicador de carregamento circular que comunica ao utilizador que um processo está em andamento.  Pode ser usado sozinho ou em conjunto com outros componentes (por exemplo, `Button`) para substituir conteúdo durante operações assíncronas.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **size** | `'xs'`, `'sm'`, `'md'`, `'lg'` | `'md'` | Define o diâmetro do spinner【223482852593900†L13-L17】. |
+
+O componente estende `div` e aceita outras props de contêiner【223482852593900†L7-L10】.
+
+## Boas práticas
+
+- **Escolha do tamanho**: use tamanhos pequenos (`xs`/`sm`) em elementos compactos, como campos ou botões, e tamanhos maiores (`md`/`lg`) para loaders autónomos【223482852593900†L14-L17】.
+- **Cor**: adapte a cor do spinner ao tema da aplicação; mantenha contraste suficiente com o fundo【223482852593900†L27-L37】.
+- **Acessibilidade**: inclua `aria-label` indicando o estado de carregamento e desactive interacções no componente que está a carregar【223482852593900†L38-L41】.
+- **Combinação com Skeleton**: para carregamentos mais longos que envolvem layout, considere usar `Skeleton` para ocupar espaço e `Spinner` para mostrar actividade【223482852593900†L34-L37】.

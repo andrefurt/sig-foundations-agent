@@ -1,0 +1,11 @@
+# rule: PR Playbook
+type: manual
+scope: **/*
+---
+When proposing a refactor or a new component:
+
+1) **Intent**: what, why, expected impact (1–3 lines)  
+2) **Before/After**: code snippets or screenshots  
+3) **Tokens & A11y**: mention the tokens touched + contrast/ARIA effects  
+4) **Validation**: run typecheck, tests, and examples  
+5) **Migration Notes** (if breaking): show a quick upgrade path  

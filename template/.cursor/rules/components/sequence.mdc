@@ -1,0 +1,78 @@
+# rule: Component – Sequence
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Sequence**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Sequence
+
+## Visão geral
+
+`Sequence` é um componente para apresentar **sequências de conteúdo** (slides, passos ou mensagens) com temporização automática.  Ele controla a progressão, indica o progresso por meio de variáveis CSS e suporta navegação por teclado e interacções de utilizador【108213092597100†L33-L87】.  É fornecido sem estilos, permitindo total personalização.
+
+## Funcionalidades principais
+
+- **Progressão automática**: avança os elementos após um intervalo definido pelo utilizador【108213092597100†L33-L87】.
+- **Indicador de progresso**: expõe variáveis CSS (`--sequence-progress`) que podem ser usadas para animar barras de progresso【108213092597100†L33-L87】.
+- **Navegação por teclado**: suporta setas, PageUp/PageDown e atalhos para saltar para o início/fim【108213092597100†L33-L87】.
+- **Suporte ARIA**: fornece atributos e roles adequados para leitores de ecrã【108213092597100†L33-L87】.
+- **Orientação flexível**: pode ser vertical ou horizontal.  Define automaticamente a direcção da navegação【108213092597100†L33-L87】.
+- **Pausa automática**: pausa quando fora do viewport através de `IntersectionObserver`【108213092597100†L33-L87】.
+- **Componentes compostos**: fornece `SequenceItems`, `SequenceItem`, `SequencePanels` e `SequencePanel` para estruturar o conteúdo【108213092597100†L33-L87】.
+
+## Dependências
+
+- `InstanceCounter`, `Slot`, `useTicker`, `useIntersectionObserver` e utilidades matemáticas (soma, etc.)【108213092597100†L33-L87】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **duration** | `number` | `3000` | Duração em milissegundos de cada slide. |
+| **orientation** | `'horizontal'` ou `'vertical'` | `'horizontal'` | Define a orientação da sequência【108213092597100†L33-L87】. |
+| **loop** | `boolean` | `false` | Se `true`, reinicia no primeiro elemento após o último. |
+| **paused** | `boolean` | `false` | Pausa a progressão automática. |
+| **currentIndex** | `number` | – | Controla externamente o índice activo (modo controlado). |
+| **onIndexChange** | `(index: number) => void` | – | Callback executado quando o índice muda. |
+
+### Componentes compostos
+
+- **SequenceItems**: container para os botões ou indicadores de cada item.  Aceita `asChild` para renderização personalizada.
+- **SequenceItem**: representa um botão/indicador individual.  Aceita `asChild` e `disabled` para bloquear interacções.
+- **SequencePanels**: container para painéis de conteúdo.  Aceita `asChild`.
+- **SequencePanel**: painel individual que exibe o conteúdo.  Aceita `asChild`.
+
+## Boas práticas
+
+- Use `Sequence` para slideshows, carrosséis ou tutoriais passo‑a‑passo.
+- Ajuste `duration` conforme o tipo de conteúdo (mensagens curtas podem rodar mais rápido).
+- Forneça **controlo manual** (setas ou botões) para utilizadores que queiram navegar no seu próprio ritmo.
+- Ao usar orientação vertical, garanta espaço suficiente para mostrar o conteúdo.

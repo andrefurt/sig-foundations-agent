@@ -1,0 +1,53 @@
+# rule: Component – Checkbox
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Checkbox**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Checkbox
+
+## Visão geral
+
+`Checkbox` é um controlo binário simples baseado no elemento nativo `<input type="checkbox">`.  Foi preparado para suportar estados indeterminados e integra‑se facilmente com formulários.
+
+## Dependências
+
+- Utiliza o utilitário `composeRefs` para combinar referências quando necessário【782226900879245†L6-L10】.
+
+## API
+
+O componente **estende o input nativo**; portanto, todas as propriedades padrão de `<input type="checkbox">` são suportadas【782226900879245†L15-L27】.
+
+## Boas práticas
+
+- **Rótulos**: associe sempre um `<label>` ao checkbox e torne o rótulo clicável para melhorar a usabilidade【782226900879245†L33-L37】.
+- **Agrupamento**: use `fieldset` e `legend` para agrupar grupos de checkboxes relacionados e fornecer contexto semântico【782226900879245†L40-L41】.
+- **Acessibilidade**: garanta navegação por teclado e estados indeterminados para reflectir selecções parciais em grupos.

@@ -1,0 +1,64 @@
+# rule: Component – Slot
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Slot**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Slot
+
+## Visão geral
+
+`Slot` é um componente utilitário que **mescla propriedades** e referências (`ref`) ao filho que contém.  É útil para permitir que componentes compostos passem estilos, classes e handlers de eventos para elementos personalizados de forma segura e sem sobrepor propriedades já existentes【465996940767551†L15-L23】.
+
+## Funcionalidades principais
+
+- **Mesclagem de props**: combina propriedades passadas para `Slot` com as do componente filho, respeitando prioridades de estilos e classes【465996940767551†L15-L23】.
+- **Composição de estilos**: une estilos inline preservando valores anteriores.
+- **Mesclagem de `className`**: utiliza utilitários como `tailwind-merge` para juntar classes sem duplicar utilitários Tailwind【465996940767551†L15-L23】.
+- **Encaminhamento de referências**: encaminha `ref` para o filho, garantindo que a referência a DOM seja preservada【465996940767551†L15-L23】.
+- **Type safety**: o tipo do filho é inferido, mantendo a tipagem de eventos e propriedades.
+
+## Dependências
+
+Não tem dependências externas directas; integra utilidades `tailwind-merge` para juntar classes.
+
+## API
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **children** | `ReactElement` | Elemento que receberá as propriedades e referências fundidas. |
+| **asChild** | `boolean` | Se verdadeiro, o componente filho será directamente renderizado com as propriedades mescladas; caso contrário, `Slot` cria um elemento wrapper. |
+
+## Boas práticas
+
+- Utilize `Slot` quando precisar envolver componentes de terceiros (como botões de um UI kit) mantendo a semântica e preservando referências.
+- Mescle cuidadosamente estilos e classes para evitar conflitos; prefira usar utilitários como `tailwind-merge`.
+- Para múltiplos filhos, utilize a variante `Slottable` (quando disponível) para aplicar propriedades em vários elementos【465996940767551†L69-L110】.

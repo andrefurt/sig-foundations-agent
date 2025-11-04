@@ -1,0 +1,81 @@
+# rule: Component – Input
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Input**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Input
+
+## Visão geral
+
+`Input` é um campo de texto simples com suporte para variantes visuais, estados de validação e componentes adicionais como prefixos e sufixos.  Serve como base para a maioria dos controlos de entrada na biblioteca【740426274653144†L15-L19】.
+
+## Funcionalidades principais
+
+- **Variantes múltiplas**: estilos `default` e `minimal` para se adaptar a diferentes contextos visuais【740426274653144†L15-L16】.
+- **Estados de validação**: suporta estado inválido (`invalid`), exibindo estilos específicos【740426274653144†L16-L17】.
+- **Addons flexíveis**: prefixos e sufixos podem conter ícones, texto ou botões; podem ser interactivos【740426274653144†L18-L20】.
+
+## Dependências
+
+- Utiliza o utilitário `composeRefs` para combinar referências de DOM【740426274653144†L6-L10】.
+
+## Anatomia
+
+```tsx
+<InputGroup>
+  <InputPrefix />
+  <Input />
+  <InputSuffix />
+</InputGroup>
+```【740426274653144†L21-L29】
+
+- **InputGroup**: contêiner para agrupar o campo e os addons【740426274653144†L52-L57】.
+- **InputPrefix** e **InputSuffix**: elementos que estendem `div`; podem ser personalizados e suportam `asChild`【740426274653144†L58-L80】.
+
+## API (Input)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `'default'` ou `'minimal'` | `'default'` | Estilo visual do campo【740426274653144†L39-L43】. |
+| **invalid** | `boolean` | `false` | Indica que o valor está inválido, aplicando estilos de erro【740426274653144†L44-L47】. |
+
+## API (InputPrefix/InputSuffix)
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **asChild** | `boolean` | Quando `true`, permite renderizar um elemento personalizado absorvendo as props【740426274653144†L63-L80】. |
+
+## Boas práticas
+
+- **Validação**: forneça mensagens de erro claras e utilize tipos de input adequados (por exemplo `email`, `number`)【740426274653144†L134-L137】.
+- **Addons**: mantenha ícones e textos relevantes e considere `aria-label` quando usar elementos interactivos no sufixo【740426274653144†L139-L142】.
+- **Consistência**: mantenha a largura do input alinhada com outros campos do formulário e ajuste o tamanho dos addons para harmonizar com o texto【740426274653144†L134-L142】.

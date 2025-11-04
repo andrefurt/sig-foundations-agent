@@ -1,0 +1,85 @@
+# rule: Component – Calendar
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Calendar**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Calendar
+
+## Visão geral
+
+`Calendar` permite seleccionar uma data única ou um intervalo de datas, com controlos para navegar entre meses e anos.  Suporta múltiplos modos, primeira semana configurável e internacionalização via API `Intl`【599426086484581†L19-L26】.
+
+## Funcionalidades principais
+
+- **Modos múltiplos**: seleção de **data única** ou **intervalo de datas**【599426086484581†L21-L24】.
+- **Primeiro dia da semana configurável**: escolha qual dia inicia a semana (domingo=0 até sábado=6)【599426086484581†L86-L90】.
+- **Internacionalização**: utiliza `Intl` para formatar datas e nomes de dias, com suporte a diferentes locais【599426086484581†L23-L96】.
+- **Restrições de datas**: pode desactivar datas específicas através de uma função `getIsDisabled`【599426086484581†L98-L103】.
+- **Navegação**: botões para mudar de mês e ano【599426086484581†L24-L26】.
+
+## Dependências
+
+- `Button` – usado nos controlos de navegação【599426086484581†L9-L15】.
+- Biblioteca `date-fns` para manipulação de datas【599426086484581†L13-L15】.
+
+## API
+
+### Quando `mode="single"`
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **mode** | `'single'` | `'single'` | Define o modo de seleção【599426086484581†L33-L40】. |
+| **value** | `Date` | – (obrigatório) | Data actualmente seleccionada【599426086484581†L42-L46】. |
+| **onDateChange** | `(date: Date) => void` | – (obrigatório) | Callback ao seleccionar uma nova data【599426086484581†L47-L51】. |
+
+### Quando `mode="range"`
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **mode** | `'range'` (obrigatório) | Activa o modo de intervalo【599426086484581†L61-L67】. |
+| **value** | `[Date, Date]` | Par de datas que representam início e fim do intervalo【599426086484581†L67-L70】. |
+| **onDateChange** | `(dates: [Date, Date]) => void` | Callback ao seleccionar um intervalo【599426086484581†L73-L75】. |
+
+### Propriedades comuns
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **startWeekOn** | `0‒6` | `0` | Dia que inicia a semana (0=Domingo)【599426086484581†L86-L90】. |
+| **locale** | `Intl.LocalesArgument` | `'en'` | Localização para formatação【599426086484581†L92-L96】. |
+| **getIsDisabled** | `(date: Date) => boolean` | – | Função que retorna `true` para datas desactivadas【599426086484581†L98-L103】. |
+
+## Boas práticas
+
+- **Validação de datas**: verifique sempre as datas antes de passar para o componente e considere fusos horários【599426086484581†L139-L143】.
+- **Acessibilidade**: forneça instruções claras sobre o formato de data e navegação; use labels visíveis e mensagens de erro claras【599426086484581†L144-L149】.
+- **Considerações móveis**: garanta alvos de toque suficientemente grandes e considere usar selectores nativos de data em dispositivos móveis【599426086484581†L151-L155】.
+- **Validação e feedback**: indique claramente datas inválidas ou desactivadas para evitar confusão【599426086484581†L157-L160】.

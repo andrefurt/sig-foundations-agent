@@ -1,0 +1,64 @@
+# rule: Component – Portal
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Portal**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Portal
+
+## Visão geral
+
+`Portal` renderiza os seus filhos num nó do DOM fora da hierarquia do componente pai.  É útil para desenhar elementos que devem escapar ao fluxo normal da página, como modais, popovers ou tooltips【802415564245962†L10-L15】.
+
+## Funcionalidades principais
+
+- **Renderização no fim do `body`**: por predefinição, o conteúdo do portal é anexado a `document.body`, garantindo que não é afectado por estilos ou `overflow` de contêineres pai【802415564245962†L10-L26】.
+- **Contêiner personalizado**: pode especificar qualquer elemento DOM como contêiner【802415564245962†L10-L26】.
+- **Compatível com SSR**: funciona tanto em renderização do lado do cliente como em frameworks com server‑side rendering【802415564245962†L12-L13】.
+- **Leve e seguro**: utiliza a API `createPortal` do React, mantendo a tipagem segura【802415564245962†L12-L15】.
+
+## API
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **container** | `Element` | `document.body` | Elemento do DOM para onde o conteúdo deve ser renderizado【802415564245962†L20-L26】. |
+
+## Exemplos de uso
+
+- **Uso básico**: renderiza um painel com fundo transparente fixo no fim do `body`【802415564245962†L32-L48】.
+- **Contêiner personalizado**: utiliza uma `div` específica como contêiner【802415564245962†L50-L70】.
+
+## Boas práticas
+
+- **Acessibilidade**: ao usar portais para modais e tooltips, garanta que são etiquetados correctamente com atributos ARIA e que a gestão de foco é tratada no componente pai【802415564245962†L76-L80】.
+- **Propagação de eventos**: lembre‑se de que os eventos ainda propagam através da árvore virtual do React, não da árvore DOM, o que pode ser útil para gestão de estado【802415564245962†L82-L83】.
+- **SSR**: como portais só são renderizados no cliente, assegure que o seu código verifica a existência do `window` antes de invocar `document.body` em ambiente de server‑side rendering【802415564245962†L85-L87】.
+- **Z‑index**: ao criar múltiplos portais, controle os valores de `z-index` para garantir que elementos se sobrepõem correctamente【802415564245962†L88-L89】.

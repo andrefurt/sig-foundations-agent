@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "servers": [
+    {
+      "name": "filesystem",
+      "type": "builtin",
+      "config": {
+        "roots": [
+          "./"
+        ]
+      }
+    },
+    {
+      "name": "http",
+      "type": "builtin",
+      "config": {
+        "allow": [
+          "https://api.github.com/*",
+          "https://raw.githubusercontent.com/*"
+        ]
+      }
+    },
+    {
+      "name": "github",
+      "type": "github",
+      "config": {
+        "repo": "org/repo",
+        "auth": "env:GITHUB_TOKEN",
+        "enabled": true
+      }
+    }
+  ]
+}

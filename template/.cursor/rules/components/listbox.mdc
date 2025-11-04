@@ -1,0 +1,118 @@
+# rule: Component – Listbox
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Listbox**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Listbox
+
+## Visão geral
+
+`Listbox` é um controlo para seleccionar um ou mais valores de uma lista de opções.  Fornece navegação por teclado completa, pesquisa integrada e integração com formulários【601972489212375†L40-L50】.
+
+## Funcionalidades principais
+
+- **Navegação por teclado**: suporta setas para navegar, `Enter` ou `Espaço` para seleccionar e teclas Home/End para saltar para o início ou fim【601972489212375†L42-L47】【601972489212375†L172-L179】.
+- **Pesquisa**: campo integrado para filtrar opções【601972489212375†L42-L45】.
+- **Selecção múltipla**: permite seleccionar vários valores com checkboxes【601972489212375†L45-L46】.
+- **Renderização personalizada**: API flexível para opções customizadas, incluindo avatares ou layout complexo【601972489212375†L47-L48】.
+- **Integração com formulários**: trabalha bem com bibliotecas de formulários e validação, permitindo estados inválidos e desactivados【601972489212375†L48-L50】.
+- **Acessibilidade**: segue o padrão WAI‑ARIA Listbox, com roles e propriedades apropriadas【601972489212375†L166-L170】.
+- **Floating UI**: utiliza `@floating-ui/react` para posicionar a lista em relação ao trigger【601972489212375†L50-L51】.
+
+## Dependências
+
+- `Popover` e `Divider` para estrutura e separação【601972489212375†L5-L13】.
+- Estilos de `input` para o campo trigger【601972489212375†L15-L17】.
+- Biblioteca `@floating-ui/react` para posicionamento【601972489212375†L19-L21】.
+
+## Anatomia
+
+```tsx
+<Listbox value={valor} onChange={setValor}>
+  <ListboxTrigger />
+  <ListboxOptions>
+    <ListboxSearchInput />
+    <ListboxOption />
+    <ListboxDivider />
+    <ListboxOption />
+    <ListboxEmpty />
+  </ListboxOptions>
+</Listbox>
+```【601972489212375†L25-L37】
+
+Componentes:
+
+- **Listbox**: elemento raiz que controla estado e renderiza children.
+- **ListboxTrigger**: botão que abre a lista; aceita variante visual e placeholder【601972489212375†L107-L116】.
+- **ListboxOptions**: contêiner com as opções; renderizado num portal【601972489212375†L120-L125】.
+- **ListboxOption**: opção individual; aceita valor, estado desactivado e se mostra um visto【601972489212375†L127-L149】.
+- **ListboxDivider**: linha horizontal para separar grupos【601972489212375†L152-L155】.
+- **ListboxSearchInput**: input estilizado para filtrar opções【601972489212375†L156-L160】.
+- **ListboxEmpty**: mensagem de estado vazio quando não há correspondências【601972489212375†L162-L165】.
+
+## API (Listbox)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **value** | `T` ou `T[]` | – (obrigatório) | Valor seleccionado ou array de valores para múltiplas selecções【601972489212375†L58-L63】. |
+| **onChange** | `(valor: T | T[]) => void` | – (obrigatório) | Callback quando o valor muda【601972489212375†L65-L68】. |
+| **disabled** | `boolean` | `false` | Desactiva o listbox【601972489212375†L70-L74】. |
+| **invalid** | `boolean` | `false` | Indica estado inválido【601972489212375†L76-L79】. |
+| **placement** | `'selection'` ou `Placement` | `'selection'` | Define onde posicionar a lista (alinhar com o item seleccionado ou com o trigger)【601972489212375†L81-L86】. |
+| **getIsSelected** | `(a: T, b: T) => boolean` | – | Função de comparação personalizada【601972489212375†L87-L91】. |
+| **matchReferenceWidth** | `boolean` | `true` | Define se a largura da lista deve corresponder ao trigger【601972489212375†L92-L97】. |
+
+## API (ListboxTrigger)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **variant** | `InputProps['variant']` | `'default'` | Estilo visual do trigger【601972489212375†L107-L111】. |
+| **placeholder** | `string` | – | Texto mostrado quando nenhum valor está seleccionado【601972489212375†L112-L116】. |
+
+## API (ListboxOption)
+
+| Propriedade | Tipo | Predefinição | Descrição |
+| --- | --- | --- | --- |
+| **value** | `T` | – (obrigatório) | Valor associado a esta opção【601972489212375†L133-L137】. |
+| **disabled** | `boolean` | `false` | Desactiva a opção【601972489212375†L139-L142】. |
+| **withCheckmark** | `boolean` | `true` | Mostra ou esconde o visto quando seleccionado【601972489212375†L143-L148】. |
+
+## Acessibilidade e interacções
+
+O `Listbox` implementa o [padrão WAI‑ARIA Listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/), fornecendo roles adequados e navegação por teclado.  As principais teclas suportadas incluem seta para cima/baixo, `Home`, `End`, `Enter`/`Espaço` para seleccionar, `Escape` para fechar e digitação para saltar para opções começando com determinadas letras【601972489212375†L166-L179】.
+
+## Boas práticas
+
+- **Escolha do componente**: use `Select` quando precisa apenas de uma lista simples; prefira `Listbox` para renderizar itens personalizados, pesquisa, múltipla selecção ou navegação avançada【32041770826828†L114-L119】.
+- **Organização**: agrupe opções com `ListboxSection` e use divisores para separar grupos relacionados【601972489212375†L25-L37】.
+- **Pesquisa**: adicione a caixa de pesquisa para listas longas; mostre `ListboxEmpty` quando não houver resultados【601972489212375†L166-L170】.
+- **Acessibilidade**: garanta que o trigger e a lista têm rótulos claros; disponibilize mensagens de estado para utilizadores de leitores de ecrã.

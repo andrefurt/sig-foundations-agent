@@ -1,0 +1,49 @@
+# rule: Component – Label
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Label**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Label
+
+## Visão geral
+
+`Label` é um componente simples que encapsula o elemento HTML `<label>`.  Serve para associar textualmente um campo de formulário ao respectivo controlo e garantir acessibilidade【178033943023100†L9-L10】.
+
+## API
+
+O componente **estende** directamente o elemento `label`; todas as propriedades padrão são suportadas【178033943023100†L9-L10】.
+
+## Boas práticas
+
+- **Associação correcta**: utilize o atributo `htmlFor` para ligar o `label` ao `id` do campo de entrada correspondente【178033943023100†L21-L25】.
+- **Texto conciso**: mantenha os rótulos curtos e claros; use capitalização de frase (inicial maiúscula)【178033943023100†L28-L31】.
+- **Acessibilidade**: nunca oculte um label visualmente.  Posicione‑o de forma consistente e garanta contraste suficiente entre o texto e o fundo【178033943023100†L32-L36】.

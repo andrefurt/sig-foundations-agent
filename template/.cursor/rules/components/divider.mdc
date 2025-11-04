@@ -1,0 +1,58 @@
+# rule: Component – Divider
+type: auto_attached
+scope: **/*
+---
+## Overview
+Short purpose and when-to-use guidance for **Divider**.
+
+## Anatomy
+- Structure and slots (leading/trailing/media/actions/meta if applicable).
+
+## Props (typed)
+- List key props with types, defaults, and constraints.
+
+## States
+- Hover, focus, active, disabled, loading, invalid.
+
+## Accessibility
+- Roles, labels, keyboard, focus outline, ARIA attributes.
+
+## Usage Examples
+- Basic usage
+- With slots (icon/text/secondary action)
+- Edge cases (long text, truncation)
+
+## Do / Don't
+- Do: keep API surface small; reuse Foundations tokens.
+- Don't: hardcode colors; expose unstable DOM structure.
+
+## Notes
+Merged documentation from repository and component docs (if present).
+
+---
+
+### Source Docs
+# Divider
+
+## Visão geral
+
+`Divider` é um separador visual que delimita seções de conteúdo.  Pode ser horizontal ou vertical e pode ser semanticamente significativo (utilizando atributos ARIA) ou meramente decorativo【426673179638414†L9-L13】.
+
+## Funcionalidades
+
+- **Orientações múltiplas**: suporta orientação horizontal ou vertical【426673179638414†L9-L21】.
+- **Uso semântico ou decorativo**: pode adicionar `aria-orientation` e `role="separator"` para indicar separação semântica ou ser apenas decorativo【426673179638414†L14-L27】.
+- **Acessível**: fornece atributos ARIA adequados quando usado semanticamente【426673179638414†L11-L13】.
+
+## API
+
+| Propriedade | Tipo | Descrição |
+| --- | --- | --- |
+| **orientation** | `'horizontal'` ou `'vertical'` | Define a orientação da linha【426673179638414†L18-L21】. |
+| **decorative** | `boolean` | Quando `true`, o divisor não adiciona atributos ARIA, sendo puramente decorativo【426673179638414†L22-L27】. |
+
+## Boas práticas
+
+- **Uso semântico**: utilize divisores semânticos para separar seções independentes, por exemplo, entre grupos de formulários【426673179638414†L47-L51】.
+- **Espaçamento**: mantenha espaçamento consistente ao redor do divisor e, em casos simples, considere usar margens em vez de um elemento de divisão【426673179638414†L52-L55】.
+- **Design visual**: mantenha o divisor discreto para não competir com o conteúdo; ajuste a cor e espessura conforme o tema【426673179638414†L56-L59】.
