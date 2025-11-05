@@ -1,5 +1,5 @@
 # rule: Component – Divider
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

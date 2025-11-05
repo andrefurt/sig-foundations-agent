@@ -1,5 +1,5 @@
 # rule: Component – Tabs
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

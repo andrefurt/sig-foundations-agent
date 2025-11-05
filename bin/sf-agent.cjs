@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-/* Significa Foundations Agent installer (idempotent) */
-#!/usr/bin/env node
-import fs from "fs";
-import path from "path";
-import url from "url";
+// CommonJS bin – compatível com Node 18/20 sem ESM quirks
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const fs = require("fs");
+const path = require("path");
 
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
@@ -21,15 +18,13 @@ function copyDir(src, dest) {
 function patchFrontMatter(filePath, { type, scope }) {
   let txt = fs.readFileSync(filePath, "utf8");
   const lines = txt.split(/\r?\n/);
-  // encontra primeira linha '---' (separador de front-matter)
-  let dash = lines.findIndex(l => /^---\s*$/.test(l));
+
+  let dash = lines.findIndex((l) => /^---\s*$/.test(l));
   if (dash === -1) {
-    // insere front-matter básico logo após a 1ª linha (costuma ser '# rule:')
     const insertAt = (lines[0] || "").startsWith("# rule:") ? 1 : 0;
     const header = [`type: ${type}`, `scope: ${scope}`, `---`, ""];
     lines.splice(insertAt, 0, ...header);
   } else {
-    // substitui ou insere 'type:' e 'scope:' acima do '---'
     let typeIdx = -1, scopeIdx = -1;
     for (let i = 0; i < dash; i++) {
       if (/^\s*type\s*:/.test(lines[i])) typeIdx = i;
@@ -37,9 +32,8 @@ function patchFrontMatter(filePath, { type, scope }) {
     }
     if (typeIdx === -1) { lines.splice(dash, 0, `type: ${type}`); dash++; }
     else { lines[typeIdx] = `type: ${type}`; }
-    // recomputa dash se inserimos
-    for (let i = 0; i < lines.length; i++) if (/^---\s*$/.test(lines[i])) { dash = i; break; }
-    scopeIdx = -1;
+
+    typeIdx = -1; scopeIdx = -1; dash = lines.findIndex((l) => /^---\s*$/.test(l));
     for (let i = 0; i < dash; i++) if (/^\s*scope\s*:/.test(lines[i])) { scopeIdx = i; break; }
     if (scopeIdx === -1) lines.splice(dash, 0, `scope: ${scope}`);
     else lines[scopeIdx] = `scope: ${scope}`;
@@ -64,7 +58,7 @@ function normalizeModes(destRoot) {
   if (fs.existsSync(compsDir)) {
     for (const f of fs.readdirSync(compsDir)) {
       if (f.endsWith(".mdc")) {
-        patchFrontMatter(path.join(compsDir, f), { type: "auto_attached", scope: "**/*" });
+        patchFrontMatter(path.join(compsDir, f), { type: "intelligent", scope: "**/*" });
       }
     }
   }
@@ -81,7 +75,7 @@ function install() {
     if (fs.existsSync(s)) fs.copyFileSync(s, path.join(dest, f));
   }
 
-  // ✅ força modos recomendados sempre que copiamos
+  // força modos recomendados ao copiar
   normalizeModes(dest);
 
   console.log("✅ Significa Foundations Agent installed/updated.");
@@ -89,7 +83,4 @@ function install() {
 
 const cmd = process.argv[2] || "install";
 if (cmd === "install" || cmd === "sync") install();
-else {
-  console.log("Usage: sf-agent [install|sync]");
-  process.exit(0);
-}
+else { console.log("Usage: sf-agent [install|sync]"); process.exit(0); }

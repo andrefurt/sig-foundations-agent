@@ -1,5 +1,5 @@
 # rule: Component – Drawer
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

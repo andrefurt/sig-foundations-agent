@@ -1,5 +1,5 @@
 # rule: Component – Stack
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

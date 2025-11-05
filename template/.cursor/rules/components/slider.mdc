@@ -1,5 +1,5 @@
 # rule: Component – Slider
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

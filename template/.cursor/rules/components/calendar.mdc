@@ -1,5 +1,5 @@
 # rule: Component – Calendar
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

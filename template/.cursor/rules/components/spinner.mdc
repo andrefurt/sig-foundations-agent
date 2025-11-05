@@ -1,5 +1,5 @@
 # rule: Component – Spinner
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview

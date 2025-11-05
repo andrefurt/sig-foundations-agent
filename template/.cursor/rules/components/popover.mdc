@@ -1,5 +1,5 @@
 # rule: Component – Popover
-type: auto_attached
+type: intelligent
 scope: **/*
 ---
 ## Overview
